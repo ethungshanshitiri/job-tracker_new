@@ -47,7 +47,7 @@
       if (generatedAt) {
         const d = new Date(generatedAt);
         lastUpdatedText.textContent = "Updated " + formatRelativeTime(d);
-        footerGenerated.textContent = "Generated " + d.toUTCString();
+        footerGenerated.textContent = "Generated " + d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
       }
 
       activeCount.textContent = allData.length;
