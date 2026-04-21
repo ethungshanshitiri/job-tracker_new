@@ -63,7 +63,7 @@
   ],
 
   "crawler": {
-    "max_hops": 3,
+    "max_hops": 5,
     "request_delay_ms": 1200,
     "timeout_ms": 15000,
     "max_body_bytes": 2097152,
@@ -72,10 +72,10 @@
     "recruitment_link_patterns": [
       "recruit",
       "recruitment",
-      "career",
+      "career","careers",
       "vacancy",
       "opening",
-      "position",
+      "position", "prospective faculty",
       "faculty",
       "appointment",
       "advertisement",
@@ -86,7 +86,9 @@
       "hiring",
       "work with us",
       "job",
-      "teaching"
+      "teaching",
+      "Application Portal",
+      "Detailed-advertisement"
     ],
 
     "skip_link_patterns": [
