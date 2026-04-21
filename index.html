@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Openings — IITs & NITs</title>
+  <meta name="description" content="Tracks current Assistant Professor and Associate Professor openings across all IITs and NITs in India. Updated automatically every 12 hours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="brand-tag">IIT &amp; NIT</span>
+        <h1 class="brand-title">Faculty Tracker</h1>
+        <p class="brand-sub">Assistant &amp; Associate Professor openings — live index</p>
+      </div>
+      <div class="header-meta">
+        <div class="meta-pill" id="last-updated-pill">
+          <span class="meta-dot"></span>
+          <span id="last-updated-text">Loading…</span>
+        </div>
+        <div class="meta-count">
+          <span id="active-count">—</span>
+          <span class="meta-label">institutes with openings</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="disclaimer-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Always verify details on the official institute recruitment page before applying. This site is a convenience index only.
+  </div>
+
+  <main class="main-layout">
+    <!-- ── Filters sidebar ── -->
+    <aside class="filters-panel" id="filters-panel">
+      <div class="filters-header">
+        <h2 class="filters-title">Filter</h2>
+        <button class="btn-reset" id="btn-reset">Clear all</button>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Search</label>
+        <input class="filter-input" id="search" type="search" placeholder="Institute or department…" aria-label="Search institutes and departments" />
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Institute type</label>
+        <div class="toggle-group" role="group" aria-label="Institute type">
+          <button class="toggle-btn active" data-filter="type" data-value="all">All</button>
+          <button class="toggle-btn" data-filter="type" data-value="IIT">IITs</button>
+          <button class="toggle-btn" data-filter="type" data-value="NIT">NITs</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Position</label>
+        <div class="toggle-group" role="group" aria-label="Position rank">
+          <button class="toggle-btn active" data-filter="rank" data-value="all">All</button>
+          <button class="toggle-btn" data-filter="rank" data-value="Assistant Professor">Asst. Prof</button>
+          <button class="toggle-btn" data-filter="rank" data-value="Associate Professor">Assoc. Prof</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Department</label>
+        <div class="toggle-group toggle-group--col" role="group" aria-label="Department">
+          <button class="toggle-btn active" data-filter="dept" data-value="all">All</button>
+          <button class="toggle-btn" data-filter="dept" data-value="electrical_engineering">EE</button>
+          <button class="toggle-btn" data-filter="dept" data-value="electronics_communication">ECE</button>
+          <button class="toggle-btn" data-filter="dept" data-value="computer_science">CSE</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Application mode</label>
+        <div class="toggle-group toggle-group--col" role="group" aria-label="Application mode">
+          <button class="toggle-btn active" data-filter="mode" data-value="all">All</button>
+          <button class="toggle-btn" data-filter="mode" data-value="rolling">Rolling basis</button>
+          <button class="toggle-btn" data-filter="mode" data-value="deadline">Fixed deadline</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Sort by</label>
+        <select class="filter-select" id="sort-select" aria-label="Sort results">
+          <option value="deadline">Nearest deadline</option>
+          <option value="checked">Recently checked</option>
+          <option value="name">Institute name</option>
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--stat">
+        <span class="stat-showing" id="stat-showing">— results</span>
+      </div>
+    </aside>
+
+    <!-- ── Results ── -->
+    <section class="results-section" aria-live="polite" aria-label="Job listings">
+      <div id="results-container">
+        <div class="loading-state" id="loading-state">
+          <div class="spinner"></div>
+          <p>Loading openings…</p>
+        </div>
+        <div class="empty-state hidden" id="empty-state">
+          <div class="empty-icon">📭</div>
+          <p class="empty-heading">No openings match your filters.</p>
+          <p class="empty-sub">Try clearing filters or check back after the next data refresh.</p>
+          <button class="btn-ghost" id="btn-clear-empty">Clear filters</button>
+        </div>
+        <div id="cards-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Data refreshes automatically every 12 hours via GitHub Actions. Source: official institute recruitment pages.</p>
+    <p>
+      <a href="https://github.com/job-tracker" target="_blank" rel="noopener">GitHub</a>
+      &nbsp;·&nbsp;
+      <span id="footer-generated">—</span>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

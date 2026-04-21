@@ -1,0 +1,101 @@
+name: Refresh Jobs & Deploy
+
+on:
+  schedule:
+    # Every 12 hours: at 00:30 UTC and 12:30 UTC
+    - cron: "30 0,12 * * *"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: "Force deploy even if scrape finds 0 results"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run scraper
+        id: scrape
+        run: |
+          echo "Starting scrape at $(date -u)"
+          node scripts/scrape.js
+          echo "Scrape completed at $(date -u)"
+
+          # Count results
+          RESULT_COUNT=$(node -e "
+            const d = JSON.parse(require('fs').readFileSync('data/jobs.json','utf8'));
+            console.log((d.results||[]).length);
+          ")
+          echo "result_count=${RESULT_COUNT}" >> $GITHUB_OUTPUT
+          echo "Found ${RESULT_COUNT} institutes with active openings"
+
+      - name: Validate jobs.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('data/jobs.json','utf8'));
+            if (!data.generatedAt) throw new Error('Missing generatedAt');
+            if (!Array.isArray(data.results)) throw new Error('Missing results array');
+            console.log('jobs.json is valid. Results:', data.results.length);
+          "
+
+      - name: Commit updated jobs.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/jobs.json
+          if git diff --staged --quiet; then
+            echo "No changes to jobs.json — skipping commit"
+          else
+            git commit -m "chore: refresh jobs data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Summary
+        run: |
+          echo "## Scrape & Deploy Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Institutes with active openings:** ${{ steps.scrape.outputs.result_count }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployed at:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pages URL:** ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
