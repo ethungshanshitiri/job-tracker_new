@@ -166,12 +166,12 @@ function extractLinks(html, baseUrl) {
  * Returns a priority score for a link based on how recruitment-relevant it looks.
  * Higher is better. Returns -1 to suppress the link entirely.
  */
-function scoreLinkRelevance(href, anchorText, domain) {
+function scoreLinkRelevance(href, anchorText, allDomains) {
   const hLow = href.toLowerCase();
   const aLow = anchorText.toLowerCase();
 
-  // Must stay on the same domain
-  if (!hLow.includes(domain)) return -1;
+  // Must stay on an allowed domain for this institute
+  if (!allDomains.some(d => hLow.includes(d))) return -1;
 
   // Hard skip patterns — if any match, drop immediately
   for (const pat of SKIP_PATTERNS) {
@@ -265,37 +265,104 @@ const MONTH_IDX = {
   sep:8, oct:9, nov:10, dec:11,
 };
 
+// Words that, when found near a date, indicate that date is a genuine deadline.
+// A date appearing without any of these nearby is likely a "last updated",
+// a footer copyright year, or an unrelated event date — not a closing deadline.
+const DEADLINE_CONTEXT_WORDS = [
+  "last date",
+  "closing date",
+  "close date",
+  "apply by",
+  "apply on or before",
+  "apply before",
+  "deadline",
+  "on or before",
+  "last day",
+  "due date",
+  "submission date",
+  "application deadline",
+  "applications must be received",
+  "applications should reach",
+  "last date for",
+  "applications close",
+  "closing on",
+  "closes on",
+  "open till",
+  "open until",
+  "valid till",
+  "valid until",
+  "before",
+  "within",
+  "upto",
+  "up to",
+  "by",
+];
+
+// How many characters around a date we look for context words.
+// 200 chars covers roughly 2-3 sentences before/after the date.
+const CONTEXT_WINDOW = 200;
+
 function parseDeadline(text) {
-  const now  = Date.now();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayMs = today.getTime();
+
   const candidates = [];
 
-  const addDate = (y, m, d) => {
-    const dt = new Date(+y, +m, +d);
-    if (!isNaN(dt) && dt.getTime() > now) candidates.push(dt);
+  // Validate a date and check it is not in the past.
+  // Returns a Date object if valid and future, otherwise null.
+  const makeDate = (y, m, d) => {
+    const yi = +y, mi = +m, di = +d;
+    if (mi < 0 || mi > 11) return null;
+    if (di < 1 || di > 31) return null;
+    if (yi < 2025 || yi > 2030) return null;
+    const dt = new Date(yi, mi, di);
+    if (dt.getMonth() !== mi) return null;  // month overflow check
+    if (dt.getTime() < todayMs) return null; // strictly reject past dates
+    return dt;
   };
 
-  // DD/MM/YYYY or DD-MM-YYYY
-  for (const [, d, mo, y] of text.matchAll(/\b(\d{1,2})[\/\-](\d{1,2})[\/\-](20\d{2})\b/g)) {
-    addDate(y, +mo - 1, d);   // DD/MM/YYYY
-    addDate(y, +d  - 1, mo);  // MM/DD/YYYY fallback
+  // Check whether a date at position `index` in the text has deadline context
+  // within CONTEXT_WINDOW characters before or after it.
+  const hasDeadlineContext = (index, matchLength) => {
+    const start  = Math.max(0, index - CONTEXT_WINDOW);
+    const end    = Math.min(text.length, index + matchLength + CONTEXT_WINDOW);
+    const window = text.slice(start, end).toLowerCase();
+    return DEADLINE_CONTEXT_WORDS.some(word => window.includes(word));
+  };
+
+  // ── Pattern 1: DD/MM/YYYY or DD-MM-YYYY ──
+  for (const m of text.matchAll(/\b(\d{1,2})[\/\-](\d{1,2})[\/\-](20\d{2})\b/g)) {
+    if (!hasDeadlineContext(m.index, m[0].length)) continue;
+    const dt = makeDate(m[3], +m[2] - 1, +m[1]);  // DD/MM/YYYY
+    if (dt) candidates.push(dt);
   }
-  // YYYY-MM-DD
-  for (const [, y, mo, d] of text.matchAll(/\b(20\d{2})[\/\-](\d{1,2})[\/\-](\d{1,2})\b/g)) {
-    addDate(y, +mo - 1, d);
+
+  // ── Pattern 2: YYYY-MM-DD ──
+  for (const m of text.matchAll(/\b(20\d{2})[\/\-](\d{1,2})[\/\-](\d{1,2})\b/g)) {
+    if (!hasDeadlineContext(m.index, m[0].length)) continue;
+    const dt = makeDate(m[1], +m[2] - 1, +m[3]);
+    if (dt) candidates.push(dt);
   }
-  // DD Month YYYY  or  DD Mon YYYY
-  for (const [, d, mon, y] of text.matchAll(
-    /\b(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\.?\s+(20\d{2})\b/gi
-  )) {
-    const mi = MONTH_IDX[mon.toLowerCase()];
-    if (mi !== undefined) addDate(y, mi, d);
+
+  // ── Pattern 3: DD Month YYYY  (e.g. "30 April 2025", "30 Apr 2025") ──
+  const re3 = /\b(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\.?\s+(20\d{2})\b/gi;
+  for (const m of text.matchAll(re3)) {
+    if (!hasDeadlineContext(m.index, m[0].length)) continue;
+    const mi = MONTH_IDX[m[2].toLowerCase()];
+    if (mi === undefined) continue;
+    const dt = makeDate(m[3], mi, +m[1]);
+    if (dt) candidates.push(dt);
   }
-  // Month DD, YYYY
-  for (const [, mon, d, y] of text.matchAll(
-    /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\.?\s+(\d{1,2})[,\s]+(20\d{2})\b/gi
-  )) {
-    const mi = MONTH_IDX[mon.toLowerCase()];
-    if (mi !== undefined) addDate(y, mi, d);
+
+  // ── Pattern 4: Month DD, YYYY  (e.g. "April 30, 2025") ──
+  const re4 = /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\.?\s+(\d{1,2})[,\s]+(20\d{2})\b/gi;
+  for (const m of text.matchAll(re4)) {
+    if (!hasDeadlineContext(m.index, m[0].length)) continue;
+    const mi = MONTH_IDX[m[1].toLowerCase()];
+    if (mi === undefined) continue;
+    const dt = makeDate(m[3], mi, +m[2]);
+    if (dt) candidates.push(dt);
   }
 
   if (!candidates.length) return null;
@@ -339,6 +406,9 @@ function scoreConfidence({ hasRank, deptCount, hasDeadline, rolling, inclCount }
  * Returns the best matching page (highest score) or null.
  */
 async function crawlInstitute(institute) {
+  // extra_domains lets specific institutes crawl related subdomains
+  // e.g. IIT Madras: facapp.iitm.ac.in for the application portal
+  const allDomains = [institute.domain, ...(institute.extra_domains || [])];
   const { id, name, homepage, domain } = institute;
   const checkedAt = new Date().toISOString();
 
@@ -378,13 +448,13 @@ async function crawlInstitute(institute) {
 
     const text = toText(html);
 
-    // ── Gate 1: quick inclusion check on this page ──
-    const pageHasRank  = RANKS.some(r => textContains(text, r));
-    const pageHasIncl  = anyContains(text, INCL_KW);
-    const pageHasDept  = detectDepartments(text).length > 0;
-
-    // Only proceed with full analysis if page has at least rank+inclusion or rank+dept
-    const worthAnalysing = pageHasRank && (pageHasIncl || pageHasDept);
+    // ── Gate 1: page must have rank + active-intake phrase + department ──
+    // Requiring all three prevents false positives from general faculty pages
+    // or archived notices that mention ranks but have no live opening language.
+    const pageHasRank = RANKS.some(r => textContains(text, r));
+    const pageHasIncl = anyContains(text, INCL_KW);
+    const pageHasDept = detectDepartments(text).length > 0;
+    const worthAnalysing = pageHasRank && pageHasIncl && pageHasDept;
 
     if (worthAnalysing) {
       // ── Gate 2: exclusion dominance ──
@@ -393,26 +463,28 @@ async function crawlInstitute(institute) {
         if (!isClosedPage(text)) {
           const ranksFound = detectRanks(text);
           const deptsFound = detectDepartments(text);
+          const ic = INCL_KW.filter(k => textContains(text, k)).length;
 
           if (ranksFound.length > 0 && deptsFound.length > 0) {
-            // ── Confirmed match on this page ──
             anyConfirmed = true;
             ranksFound.forEach(r => allRanks.add(r));
             deptsFound.forEach(d => allDepts.add(d));
 
-            const pd = parseDeadline(text);
+            // Rolling detection always runs first. If the page says rolling basis,
+            // any date found is context (e.g. "last updated May 1") not a deadline.
             const pr = isRolling(text);
-            const ic = INCL_KW.filter(k => textContains(text, k)).length;
+            const pd = pr ? null : parseDeadline(text);
 
-            // Keep the page URL that is most specific (deepest / most keyword-rich)
             if (!bestUrl || ic > inclCount) {
-              bestUrl      = url;
-              inclCount    = ic;
+              bestUrl   = url;
+              inclCount = ic;
             }
-            if (pd && !bestDeadline) bestDeadline = pd;
+            if (pd) {
+              if (!bestDeadline || pd < bestDeadline) bestDeadline = pd;
+            }
             if (pr) rolling = true;
 
-            console.log(`    [match] ${url.replace(homepage, "")||"/"} — ranks: ${ranksFound.join(",")} depts: ${deptsFound.join(",")}`);
+            console.log(`    [match] ${url.replace(homepage, "")||"/"} — ranks: ${ranksFound.join(",")} depts: ${deptsFound.join(",")} rolling: ${pr} deadline: ${pd||"none"}`);
           }
         } else {
           console.log(`    [closed] ${url.replace(homepage, "")||"/"}`);
@@ -425,7 +497,7 @@ async function crawlInstitute(institute) {
       const links = extractLinks(html, url);
       for (const { href, anchorText } of links) {
         if (visited.has(href)) continue;
-        const s = scoreLinkRelevance(href, anchorText, domain);
+        const s = scoreLinkRelevance(href, anchorText, allDomains);
         if (s < 0) continue;        // suppressed
         if (s === 0 && depth >= 2)  continue;  // at hop 3 only follow positive-score links
         queue.push({ url: href, depth: depth + 1, linkScore: s });

@@ -4,9 +4,9 @@
   "notes": "Each entry stores only the institute homepage. The scraper crawls up to 3 hops deep from the homepage to find faculty recruitment pages automatically.",
 
   "iits": [
+    { "id": "iit-madras",      "name": "IIT Madras",           "homepage": "https://www.iitm.ac.in",          "domain": "iitm.ac.in",         "extra_domains": ["facapp.iitm.ac.in"] },
     { "id": "iit-bombay",      "name": "IIT Bombay",           "homepage": "https://www.iitb.ac.in",          "domain": "iitb.ac.in" },
     { "id": "iit-delhi",       "name": "IIT Delhi",            "homepage": "https://home.iitd.ac.in",         "domain": "iitd.ac.in" },
-    { "id": "iit-madras",      "name": "IIT Madras",           "homepage": "https://www.iitm.ac.in",          "domain": "iitm.ac.in" },
     { "id": "iit-kanpur",      "name": "IIT Kanpur",           "homepage": "https://www.iitk.ac.in",          "domain": "iitk.ac.in" },
     { "id": "iit-kharagpur",   "name": "IIT Kharagpur",        "homepage": "https://www.iitkgp.ac.in",        "domain": "iitkgp.ac.in" },
     { "id": "iit-roorkee",     "name": "IIT Roorkee",          "homepage": "https://www.iitr.ac.in",          "domain": "iitr.ac.in" },
