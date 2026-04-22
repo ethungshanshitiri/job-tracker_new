@@ -2,80 +2,369 @@
   "version": "2.0.0",
   "last_updated": "2025-04-21",
   "notes": "Each entry stores only the institute homepage. The scraper crawls up to 3 hops deep from the homepage to find faculty recruitment pages automatically.",
-
   "iits": [
-    { "id": "iit-madras", "name": "IIT Madras", "homepage": "https://www.iitm.ac.in", "domain": "iitm.ac.in", "extra_domains": ["facapp.iitm.ac.in"], "seed_urls": ["https://www.iitm.ac.in/careers/prospective-faculty", "https://facapp.iitm.ac.in/"] },
-    { "id": "iit-bombay",      "name": "IIT Bombay",           "homepage": "https://www.iitb.ac.in",          "domain": "iitb.ac.in" },
-    { "id": "iit-delhi",       "name": "IIT Delhi",            "homepage": "https://home.iitd.ac.in",         "domain": "iitd.ac.in" },
-    { "id": "iit-kanpur",      "name": "IIT Kanpur",           "homepage": "https://www.iitk.ac.in",          "domain": "iitk.ac.in" },
-    { "id": "iit-kharagpur",   "name": "IIT Kharagpur",        "homepage": "https://www.iitkgp.ac.in",        "domain": "iitkgp.ac.in" },
-    { "id": "iit-roorkee",     "name": "IIT Roorkee",          "homepage": "https://www.iitr.ac.in",          "domain": "iitr.ac.in" },
-    { "id": "iit-guwahati",    "name": "IIT Guwahati",         "homepage": "https://www.iitg.ac.in",          "domain": "iitg.ac.in" },
-    { "id": "iit-hyderabad",   "name": "IIT Hyderabad",        "homepage": "https://www.iith.ac.in",          "domain": "iith.ac.in" },
-    { "id": "iit-indore",      "name": "IIT Indore",           "homepage": "https://www.iiti.ac.in",          "domain": "iiti.ac.in" },
-    { "id": "iit-varanasi",    "name": "IIT (BHU) Varanasi",   "homepage": "https://www.iitbhu.ac.in",        "domain": "iitbhu.ac.in" },
-    { "id": "iit-bhubaneswar", "name": "IIT Bhubaneswar",      "homepage": "https://www.iitbbs.ac.in",        "domain": "iitbbs.ac.in" },
-    { "id": "iit-gandhinagar", "name": "IIT Gandhinagar",      "homepage": "https://www.iitgn.ac.in",         "domain": "iitgn.ac.in" },
-    { "id": "iit-jodhpur",     "name": "IIT Jodhpur",          "homepage": "https://iitj.ac.in",              "domain": "iitj.ac.in" },
-    { "id": "iit-mandi",       "name": "IIT Mandi",            "homepage": "https://www.iitmandi.ac.in",      "domain": "iitmandi.ac.in" },
-    { "id": "iit-patna",       "name": "IIT Patna",            "homepage": "https://www.iitp.ac.in",          "domain": "iitp.ac.in" },
-    { "id": "iit-ropar",       "name": "IIT Ropar",            "homepage": "https://www.iitrpr.ac.in",        "domain": "iitrpr.ac.in" },
-    { "id": "iit-tirupati",    "name": "IIT Tirupati",         "homepage": "https://www.iittp.ac.in",         "domain": "iittp.ac.in" },
-    { "id": "iit-palakkad",    "name": "IIT Palakkad",         "homepage": "https://iitpkd.ac.in",            "domain": "iitpkd.ac.in" },
-    { "id": "iit-jammu",       "name": "IIT Jammu",            "homepage": "https://www.iitjammu.ac.in",      "domain": "iitjammu.ac.in" },
-    { "id": "iit-dharwad",     "name": "IIT Dharwad",          "homepage": "https://www.iitdh.ac.in",         "domain": "iitdh.ac.in" },
-    { "id": "iit-bhilai",      "name": "IIT Bhilai",           "homepage": "https://www.iitbhilai.ac.in",     "domain": "iitbhilai.ac.in" },
-    { "id": "iit-goa",         "name": "IIT Goa",              "homepage": "https://iitgoa.ac.in",            "domain": "iitgoa.ac.in" }
+    {
+      "id": "iit-madras",
+      "name": "IIT Madras",
+      "homepage": "https://www.iitm.ac.in",
+      "domain": "iitm.ac.in",
+      "seed_urls": [
+        "https://www.iitm.ac.in/careers/prospective-faculty",
+        "https://facapp.iitm.ac.in/"
+      ]
+    },
+    {
+      "id": "iit-bombay",
+      "name": "IIT Bombay",
+      "homepage": "https://www.iitb.ac.in",
+      "domain": "iitb.ac.in"
+    },
+    {
+      "id": "iit-delhi",
+      "name": "IIT Delhi",
+      "homepage": "https://home.iitd.ac.in",
+      "domain": "iitd.ac.in"
+    },
+    {
+      "id": "iit-kanpur",
+      "name": "IIT Kanpur",
+      "homepage": "https://www.iitk.ac.in",
+      "domain": "iitk.ac.in",
+      "seed_urls": [
+        "https://www.iitk.ac.in/faculty-recruitment",
+        "https://www.iitk.ac.in/dofa/rolling-advertisement"
+      ]
+    },
+    {
+      "id": "iit-kharagpur",
+      "name": "IIT Kharagpur",
+      "homepage": "https://www.iitkgp.ac.in",
+      "domain": "iitkgp.ac.in"
+    },
+    {
+      "id": "iit-roorkee",
+      "name": "IIT Roorkee",
+      "homepage": "https://www.iitr.ac.in",
+      "domain": "iitr.ac.in"
+    },
+    {
+      "id": "iit-guwahati",
+      "name": "IIT Guwahati",
+      "homepage": "https://www.iitg.ac.in",
+      "domain": "iitg.ac.in",
+      "seed_urls": [
+        "https://iitg.ac.in/iitg_page_details?page=61/fac_rec"
+      ],
+      "force_rolling": true
+    },
+    {
+      "id": "iit-hyderabad",
+      "name": "IIT Hyderabad",
+      "homepage": "https://www.iith.ac.in",
+      "domain": "iith.ac.in"
+    },
+    {
+      "id": "iit-indore",
+      "name": "IIT Indore",
+      "homepage": "https://www.iiti.ac.in",
+      "domain": "iiti.ac.in"
+    },
+    {
+      "id": "iit-varanasi",
+      "name": "IIT (BHU) Varanasi",
+      "homepage": "https://www.iitbhu.ac.in",
+      "domain": "iitbhu.ac.in"
+    },
+    {
+      "id": "iit-bhubaneswar",
+      "name": "IIT Bhubaneswar",
+      "homepage": "https://www.iitbbs.ac.in",
+      "domain": "iitbbs.ac.in",
+      "seed_urls": [
+        "https://www.iitbbs.ac.in/index.php/home/jobs/"
+      ]
+    },
+    {
+      "id": "iit-gandhinagar",
+      "name": "IIT Gandhinagar",
+      "homepage": "https://www.iitgn.ac.in",
+      "domain": "iitgn.ac.in",
+      "seed_urls": [
+        "https://iitgn.ac.in/careers/faculty-rolling-advertisement"
+      ],
+      "force_rolling": true
+    },
+    {
+      "id": "iit-jodhpur",
+      "name": "IIT Jodhpur",
+      "homepage": "https://iitj.ac.in",
+      "domain": "iitj.ac.in",
+      "seed_urls": [
+        "https://erponline.iitj.ac.in/Jobs/auth/facapps.html"
+      ]
+    },
+    {
+      "id": "iit-mandi",
+      "name": "IIT Mandi",
+      "homepage": "https://www.iitmandi.ac.in",
+      "domain": "iitmandi.ac.in"
+    },
+    {
+      "id": "iit-patna",
+      "name": "IIT Patna",
+      "homepage": "https://www.iitp.ac.in",
+      "domain": "iitp.ac.in"
+    },
+    {
+      "id": "iit-ropar",
+      "name": "IIT Ropar",
+      "homepage": "https://www.iitrpr.ac.in",
+      "domain": "iitrpr.ac.in"
+    },
+    {
+      "id": "iit-tirupati",
+      "name": "IIT Tirupati",
+      "homepage": "https://www.iittp.ac.in",
+      "domain": "iittp.ac.in"
+    },
+    {
+      "id": "iit-palakkad",
+      "name": "IIT Palakkad",
+      "homepage": "https://iitpkd.ac.in",
+      "domain": "iitpkd.ac.in"
+    },
+    {
+      "id": "iit-jammu",
+      "name": "IIT Jammu",
+      "homepage": "https://www.iitjammu.ac.in",
+      "domain": "iitjammu.ac.in"
+    },
+    {
+      "id": "iit-dharwad",
+      "name": "IIT Dharwad",
+      "homepage": "https://www.iitdh.ac.in",
+      "domain": "iitdh.ac.in",
+      "force_rolling": true
+    },
+    {
+      "id": "iit-bhilai",
+      "name": "IIT Bhilai",
+      "homepage": "https://www.iitbhilai.ac.in",
+      "domain": "iitbhilai.ac.in"
+    },
+    {
+      "id": "iit-goa",
+      "name": "IIT Goa",
+      "homepage": "https://iitgoa.ac.in",
+      "domain": "iitgoa.ac.in"
+    }
   ],
-
   "nits": [
-    { "id": "nit-trichy",       "name": "NIT Tiruchirappalli",   "homepage": "https://www.nitt.edu",           "domain": "nitt.edu" },
-    { "id": "nit-warangal",     "name": "NIT Warangal",          "homepage": "https://www.nitw.ac.in",         "domain": "nitw.ac.in" },
-    { "id": "nit-surathkal",    "name": "NIT Surathkal",         "homepage": "https://www.nitk.ac.in",         "domain": "nitk.ac.in" },
-    { "id": "nit-calicut",      "name": "NIT Calicut",           "homepage": "https://www.nitc.ac.in",         "domain": "nitc.ac.in" },
-    { "id": "nit-rourkela",     "name": "NIT Rourkela",          "homepage": "https://www.nitrkl.ac.in",       "domain": "nitrkl.ac.in" },
-    { "id": "nit-allahabad",    "name": "MNNIT Allahabad",       "homepage": "https://www.mnnit.ac.in",        "domain": "mnnit.ac.in" },
-    { "id": "nit-jaipur",       "name": "MNIT Jaipur",           "homepage": "https://www.mnit.ac.in",         "domain": "mnit.ac.in" },
-    { "id": "nit-kurukshetra",  "name": "NIT Kurukshetra",       "homepage": "https://www.nitkkr.ac.in",       "domain": "nitkkr.ac.in" },
-    { "id": "nit-durgapur",     "name": "NIT Durgapur",          "homepage": "https://www.nitdgp.ac.in",       "domain": "nitdgp.ac.in" },
-    { "id": "nit-patna",        "name": "NIT Patna",             "homepage": "https://www.nitp.ac.in",         "domain": "nitp.ac.in" },
-    { "id": "nit-silchar",      "name": "NIT Silchar",           "homepage": "https://www.nits.ac.in",         "domain": "nits.ac.in" },
-    { "id": "nit-nagpur",       "name": "VNIT Nagpur",           "homepage": "https://www.vnit.ac.in",         "domain": "vnit.ac.in" },
-    { "id": "nit-hamirpur",     "name": "NIT Hamirpur",          "homepage": "https://www.nith.ac.in",         "domain": "nith.ac.in" },
-    { "id": "nit-agartala",     "name": "NIT Agartala",          "homepage": "https://www.nita.ac.in",         "domain": "nita.ac.in" },
-    { "id": "nit-surat",        "name": "SVNIT Surat",           "homepage": "https://www.svnit.ac.in",        "domain": "svnit.ac.in" },
-    { "id": "nit-jalandhar",    "name": "NIT Jalandhar",         "homepage": "https://www.nitj.ac.in",         "domain": "nitj.ac.in" },
-    { "id": "nit-bhopal",       "name": "MANIT Bhopal",          "homepage": "https://www.manit.ac.in",        "domain": "manit.ac.in" },
-    { "id": "nit-jamshedpur",   "name": "NIT Jamshedpur",        "homepage": "https://www.nitjsr.ac.in",       "domain": "nitjsr.ac.in" },
-    { "id": "nit-raipur",       "name": "NIT Raipur",            "homepage": "https://www.nitrr.ac.in",        "domain": "nitrr.ac.in" },
-    { "id": "nit-delhi",        "name": "NIT Delhi",             "homepage": "https://nitdelhi.ac.in",         "domain": "nitdelhi.ac.in" },
-    { "id": "nit-goa",          "name": "NIT Goa",               "homepage": "https://www.nitgoa.ac.in",       "domain": "nitgoa.ac.in" },
-    { "id": "nit-manipur",      "name": "NIT Manipur",           "homepage": "https://www.nitmanipur.ac.in",   "domain": "nitmanipur.ac.in" },
-    { "id": "nit-meghalaya",    "name": "NIT Meghalaya",         "homepage": "https://www.nitm.ac.in",         "domain": "nitm.ac.in" },
-    { "id": "nit-mizoram",      "name": "NIT Mizoram",           "homepage": "https://www.nitmz.ac.in",        "domain": "nitmz.ac.in" },
-    { "id": "nit-nagaland",     "name": "NIT Nagaland",          "homepage": "https://www.nitnagaland.ac.in",  "domain": "nitnagaland.ac.in" },
-    { "id": "nit-arunachal",    "name": "NIT Arunachal Pradesh", "homepage": "https://www.nitap.ac.in",        "domain": "nitap.ac.in" },
-    { "id": "nit-sikkim",       "name": "NIT Sikkim",            "homepage": "https://www.nitsikkim.ac.in",    "domain": "nitsikkim.ac.in" },
-    { "id": "nit-andhra",       "name": "NIT Andhra Pradesh",    "homepage": "https://www.nitandhra.ac.in",    "domain": "nitandhra.ac.in" },
-    { "id": "nit-puducherry",   "name": "NIT Puducherry",        "homepage": "https://www.nitpy.ac.in",        "domain": "nitpy.ac.in" },
-    { "id": "nit-uttarakhand",  "name": "NIT Uttarakhand",       "homepage": "https://www.nituk.ac.in",        "domain": "nituk.ac.in" },
-    { "id": "nit-srinagar",     "name": "NIT Srinagar",          "homepage": "https://www.nitsri.ac.in",       "domain": "nitsri.ac.in" }
+    {
+      "id": "nit-trichy",
+      "name": "NIT Tiruchirappalli",
+      "homepage": "https://www.nitt.edu",
+      "domain": "nitt.edu",
+      "seed_urls": [
+        "https://www.nitt.edu/home/other/jobs/"
+      ]
+    },
+    {
+      "id": "nit-warangal",
+      "name": "NIT Warangal",
+      "homepage": "https://www.nitw.ac.in",
+      "domain": "nitw.ac.in"
+    },
+    {
+      "id": "nit-surathkal",
+      "name": "NIT Surathkal",
+      "homepage": "https://www.nitk.ac.in",
+      "domain": "nitk.ac.in"
+    },
+    {
+      "id": "nit-calicut",
+      "name": "NIT Calicut",
+      "homepage": "https://www.nitc.ac.in",
+      "domain": "nitc.ac.in"
+    },
+    {
+      "id": "nit-rourkela",
+      "name": "NIT Rourkela",
+      "homepage": "https://www.nitrkl.ac.in",
+      "domain": "nitrkl.ac.in"
+    },
+    {
+      "id": "nit-allahabad",
+      "name": "MNNIT Allahabad",
+      "homepage": "https://www.mnnit.ac.in",
+      "domain": "mnnit.ac.in"
+    },
+    {
+      "id": "nit-jaipur",
+      "name": "MNIT Jaipur",
+      "homepage": "https://www.mnit.ac.in",
+      "domain": "mnit.ac.in"
+    },
+    {
+      "id": "nit-kurukshetra",
+      "name": "NIT Kurukshetra",
+      "homepage": "https://www.nitkkr.ac.in",
+      "domain": "nitkkr.ac.in"
+    },
+    {
+      "id": "nit-durgapur",
+      "name": "NIT Durgapur",
+      "homepage": "https://www.nitdgp.ac.in",
+      "domain": "nitdgp.ac.in"
+    },
+    {
+      "id": "nit-patna",
+      "name": "NIT Patna",
+      "homepage": "https://www.nitp.ac.in",
+      "domain": "nitp.ac.in"
+    },
+    {
+      "id": "nit-silchar",
+      "name": "NIT Silchar",
+      "homepage": "https://www.nits.ac.in",
+      "domain": "nits.ac.in"
+    },
+    {
+      "id": "nit-nagpur",
+      "name": "VNIT Nagpur",
+      "homepage": "https://www.vnit.ac.in",
+      "domain": "vnit.ac.in"
+    },
+    {
+      "id": "nit-hamirpur",
+      "name": "NIT Hamirpur",
+      "homepage": "https://www.nith.ac.in",
+      "domain": "nith.ac.in"
+    },
+    {
+      "id": "nit-agartala",
+      "name": "NIT Agartala",
+      "homepage": "https://www.nita.ac.in",
+      "domain": "nita.ac.in"
+    },
+    {
+      "id": "nit-surat",
+      "name": "SVNIT Surat",
+      "homepage": "https://www.svnit.ac.in",
+      "domain": "svnit.ac.in"
+    },
+    {
+      "id": "nit-jalandhar",
+      "name": "NIT Jalandhar",
+      "homepage": "https://www.nitj.ac.in",
+      "domain": "nitj.ac.in"
+    },
+    {
+      "id": "nit-bhopal",
+      "name": "MANIT Bhopal",
+      "homepage": "https://www.manit.ac.in",
+      "domain": "manit.ac.in"
+    },
+    {
+      "id": "nit-jamshedpur",
+      "name": "NIT Jamshedpur",
+      "homepage": "https://www.nitjsr.ac.in",
+      "domain": "nitjsr.ac.in"
+    },
+    {
+      "id": "nit-raipur",
+      "name": "NIT Raipur",
+      "homepage": "https://www.nitrr.ac.in",
+      "domain": "nitrr.ac.in"
+    },
+    {
+      "id": "nit-delhi",
+      "name": "NIT Delhi",
+      "homepage": "https://nitdelhi.ac.in",
+      "domain": "nitdelhi.ac.in"
+    },
+    {
+      "id": "nit-goa",
+      "name": "NIT Goa",
+      "homepage": "https://www.nitgoa.ac.in",
+      "domain": "nitgoa.ac.in"
+    },
+    {
+      "id": "nit-manipur",
+      "name": "NIT Manipur",
+      "homepage": "https://www.nitmanipur.ac.in",
+      "domain": "nitmanipur.ac.in"
+    },
+    {
+      "id": "nit-meghalaya",
+      "name": "NIT Meghalaya",
+      "homepage": "https://www.nitm.ac.in",
+      "domain": "nitm.ac.in"
+    },
+    {
+      "id": "nit-mizoram",
+      "name": "NIT Mizoram",
+      "homepage": "https://www.nitmz.ac.in",
+      "domain": "nitmz.ac.in"
+    },
+    {
+      "id": "nit-nagaland",
+      "name": "NIT Nagaland",
+      "homepage": "https://www.nitnagaland.ac.in",
+      "domain": "nitnagaland.ac.in"
+    },
+    {
+      "id": "nit-arunachal",
+      "name": "NIT Arunachal Pradesh",
+      "homepage": "https://www.nitap.ac.in",
+      "domain": "nitap.ac.in"
+    },
+    {
+      "id": "nit-sikkim",
+      "name": "NIT Sikkim",
+      "homepage": "https://www.nitsikkim.ac.in",
+      "domain": "nitsikkim.ac.in"
+    },
+    {
+      "id": "nit-andhra",
+      "name": "NIT Andhra Pradesh",
+      "homepage": "https://www.nitandhra.ac.in",
+      "domain": "nitandhra.ac.in"
+    },
+    {
+      "id": "nit-puducherry",
+      "name": "NIT Puducherry",
+      "homepage": "https://www.nitpy.ac.in",
+      "domain": "nitpy.ac.in"
+    },
+    {
+      "id": "nit-uttarakhand",
+      "name": "NIT Uttarakhand",
+      "homepage": "https://www.nituk.ac.in",
+      "domain": "nituk.ac.in"
+    },
+    {
+      "id": "nit-srinagar",
+      "name": "NIT Srinagar",
+      "homepage": "https://www.nitsri.ac.in",
+      "domain": "nitsri.ac.in"
+    }
   ],
-
   "crawler": {
     "max_hops": 5,
     "request_delay_ms": 1200,
     "timeout_ms": 15000,
     "max_body_bytes": 2097152,
     "max_pages_per_institute": 40,
-
     "recruitment_link_patterns": [
       "recruit",
       "recruitment",
-      "career","careers",
+      "career",
+      "careers",
       "vacancy",
       "opening",
-      "position", "prospective faculty",
+      "position",
+      "prospective faculty",
       "faculty",
       "appointment",
       "advertisement",
@@ -90,101 +379,159 @@
       "Application Portal",
       "Detailed-advertisement"
     ],
-
     "skip_link_patterns": [
-"recruit.iitm.ac.in",
-"R525",
-"_Syllabus_",
-"_L1list",
-"_L2-shortlisted",
-"-Selected",
-"HVAC",
-"_Officer",
-"shortlisted",
-"selected.pdf",
-"syllabus.pdf",
-"schedule.pdf",
+      "recruit.iitm.ac.in",
+      "R525",
+      "_Syllabus_",
+      "_L1list",
+      "_L2-shortlisted",
+      "-Selected",
+      "HVAC",
+      "_Officer",
+      "shortlisted",
+      "selected.pdf",
+      "syllabus.pdf",
+      "schedule.pdf",
       "FacultyAwards",
-"archive",
-"/Administration/",
-"faculty-list",
-"faculty-achievement",
-"DisplayPage.aspx",
-"bog.php",
-"finance_committee",
-"chairperson",
-"academic_section",
-"/deans",
-"head-of-departments",
-"senate",
-"lang/hi",
-"/applied-sciences",
-"/civil-engineering",
-"/mechanical",
-"/chemical",
-"/chemistry",
-"/physics",
-"/mathematics",
-"/maths",
-"/metallurgy",
-"/humanities",
-"board-of-governors",
-"board-of-governers",
-"BOG.aspx",
-"FacultyProfile.aspx",
-"FacultyList.aspx",
-"FacultyProfile",
-"faculty-profile",
-"people.php",
-"people_faculty",
-"EMPBiodata",
-"Minutes_Others",
-"faculty/?id=",
-"?id=nidhi",
-"result.php",
-"teaching2023",
-"teaching2024",
-"administration/people",
-"administration-sections",
-"board-of-governers",
-"recuritment-rules",
-"finance-committee",
-"Committees.html",
-"convocation",
-"placement",
-"guest-house",
-"news_details",
-"DisplayPages.aspx",
-"ViewAll.aspx", "faculty-members","faculty-directory", "allfaculty",
-      "all-faculty","/people/faculty","faculty.php",
-      "serving-assessment","serving-incentives","/dept/",
-      "faculty-in-charge", "equal-opportunity","we-are-pleased",
-      "previous/","/previous","achievements/","faculty-staff-awards",
-      "award","fellowship","/people/","view-profile",
-      "jobinfrancis","faculty-and-staff/faculty","centre-for-career",
-      "login", "signin", "logout", "register",
-      "alumni", "hostel", "library", "canteen", "sports",
-      "nss", "ncc", "photo", "gallery",
-      "tender", "rti", "nirf", "naac", "iqac",
-      "feedback", "grievance", "scholarship",
-      "mess", "transport", "medical", "health", "hospital",
-      "bank", "atm", "purchase", "estate", "construction",
-      "eprocure", "cppp", "gem.gov",
-      "facebook.com", "twitter.com", "linkedin.com",
-      "instagram.com", "youtube.com",
-      "mailto:", "tel:", "javascript:",
-      ".pdf", ".doc", ".docx", ".xls", ".xlsx",
-      ".ppt", ".pptx", ".zip", ".rar",
-      ".jpg", ".jpeg", ".png", ".gif", ".svg",
-      ".mp4", ".mp3", ".wav"
+      "archive",
+      "/Administration/",
+      "faculty-list",
+      "faculty-achievement",
+      "DisplayPage.aspx",
+      "bog.php",
+      "finance_committee",
+      "chairperson",
+      "academic_section",
+      "/deans",
+      "head-of-departments",
+      "senate",
+      "lang/hi",
+      "/applied-sciences",
+      "/civil-engineering",
+      "/mechanical",
+      "/chemical",
+      "/chemistry",
+      "/physics",
+      "/mathematics",
+      "/maths",
+      "/metallurgy",
+      "/humanities",
+      "board-of-governors",
+      "board-of-governers",
+      "BOG.aspx",
+      "FacultyProfile.aspx",
+      "FacultyList.aspx",
+      "FacultyProfile",
+      "faculty-profile",
+      "people.php",
+      "people_faculty",
+      "EMPBiodata",
+      "Minutes_Others",
+      "faculty/?id=",
+      "?id=nidhi",
+      "result.php",
+      "teaching2023",
+      "teaching2024",
+      "administration/people",
+      "administration-sections",
+      "board-of-governers",
+      "recuritment-rules",
+      "finance-committee",
+      "Committees.html",
+      "convocation",
+      "placement",
+      "guest-house",
+      "news_details",
+      "DisplayPages.aspx",
+      "ViewAll.aspx",
+      "faculty-members",
+      "faculty-directory",
+      "allfaculty",
+      "all-faculty",
+      "/people/faculty",
+      "faculty.php",
+      "serving-assessment",
+      "serving-incentives",
+      "/dept/",
+      "faculty-in-charge",
+      "equal-opportunity",
+      "we-are-pleased",
+      "previous/",
+      "/previous",
+      "achievements/",
+      "faculty-staff-awards",
+      "award",
+      "fellowship",
+      "/people/",
+      "view-profile",
+      "jobinfrancis",
+      "faculty-and-staff/faculty",
+      "centre-for-career",
+      "login",
+      "signin",
+      "logout",
+      "register",
+      "alumni",
+      "hostel",
+      "library",
+      "canteen",
+      "sports",
+      "nss",
+      "ncc",
+      "photo",
+      "gallery",
+      "tender",
+      "rti",
+      "nirf",
+      "naac",
+      "iqac",
+      "feedback",
+      "grievance",
+      "scholarship",
+      "mess",
+      "transport",
+      "medical",
+      "health",
+      "hospital",
+      "bank",
+      "atm",
+      "purchase",
+      "estate",
+      "construction",
+      "eprocure",
+      "cppp",
+      "gem.gov",
+      "facebook.com",
+      "twitter.com",
+      "linkedin.com",
+      "instagram.com",
+      "youtube.com",
+      "mailto:",
+      "tel:",
+      "javascript:",
+      ".pdf",
+      ".doc",
+      ".docx",
+      ".xls",
+      ".xlsx",
+      ".ppt",
+      ".pptx",
+      ".zip",
+      ".rar",
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".svg",
+      ".mp4",
+      ".mp3",
+      ".wav"
     ]
   },
-
   "target_ranks": [
     "assistant professor",
     "associate professor"
   ],
-
   "target_departments": {
     "electrical_engineering": [
       "electrical engineering",
@@ -217,7 +564,6 @@
       "computing"
     ]
   },
-
   "inclusion_keywords": [
     "assistant professor",
     "associate professor",
@@ -235,12 +581,18 @@
     "regular faculty",
     "faculty appointment",
     "applications invited for",
-"rolling advertisement",
-"rolling advt",
-"advertisement - 2026",
-"rolling basis recruitment"
+    "rolling advertisement",
+    "rolling advt",
+    "advertisement - 2026",
+    "rolling basis recruitment",
+    "faculty positions are open",
+    "positions are open on",
+    "open on rolling",
+    "invites applications on a rolling",
+    "recruitment on rolling",
+    "rolling recruitment",
+    "applications will be reviewed"
   ],
-
   "exclusion_keywords": [
     "research assistant",
     "project assistant",
@@ -273,7 +625,6 @@
     "officer",
     "executive"
   ],
-
   "closed_signals": [
     "last date expired",
     "advertisement archived",
@@ -284,6 +635,18 @@
     "deadline has passed",
     "position filled",
     "vacancy closed",
-    "closed for applications"
+    "closed for applications",
+    "walk-in interview is over",
+    "recruitment process is over",
+    "selection process completed",
+    "result has been declared",
+    "applications are no longer",
+    "this position has been filled",
+    "post has been filled",
+    "stands cancelled",
+    "has been cancelled",
+    "shortlisted candidates",
+    "interview scheduled",
+    "closed vide"
   ]
 }

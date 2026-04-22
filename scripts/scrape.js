@@ -251,11 +251,11 @@ function scoreLinkRelevance(href, anchorText, allDomains) {
     if (pat === '.pdf') continue;  // handled separately below
     if (hLow.includes(pat) || aLow.includes(pat)) return -1;
   }
-  if (isPdf) {
-    // Only allow PDFs that have a recruitment signal in the URL or anchor text
-    const hasPdfRecruitSignal = REC_PATTERNS.some(p => hLow.includes(p) || aLow.includes(p));
-    if (!hasPdfRecruitSignal) return -1;
-    return 4;  // fixed moderate score for recruitment PDFs
+ if (isPdf) {
+    // PDF crawling disabled — causes too many false positives from
+    // non-teaching staff recruitment PDFs consuming the page budget.
+    // Re-enable once a stricter domain-level PDF allowlist is built.
+    return -1;
   }
 
   let score = 0;
@@ -454,9 +454,17 @@ function isRolling(text) {
   const low = text.toLowerCase();
   return (
     low.includes("rolling basis") ||
+    low.includes("rolling advertisement") ||
+    low.includes("rolling advt") ||
+    low.includes("rolling recruitment") ||
+    low.includes("open on rolling") ||
+    low.includes("positions are open on") ||
+    low.includes("faculty positions are open") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
-    low.includes("applications are reviewed on a rolling")
+    low.includes("applications are reviewed on a rolling") ||
+    low.includes("applications will be reviewed") ||
+    low.includes("invites applications on a rolling")
   );
 }
 
@@ -494,7 +502,8 @@ async function crawlInstitute(institute) {
 
   const visited = new Set();
   // { url, depth, score } — scored during link extraction so BFS is priority-aware
-  const queue   = [{ url: homepage, depth: 0, linkScore: 100 }];
+  const seedUrls = [homepage, ...(institute.seed_urls || [])];
+  const queue    = seedUrls.map(u => ({ url: u, depth: 0, linkScore: 100 }));
   let   pagesVisited = 0;
 
   // Accumulate all confirmed findings across pages
@@ -562,7 +571,8 @@ async function crawlInstitute(institute) {
           const deptsFound = detectDepartments(text);
           const ic = INCL_KW.filter(k => textContains(text, k)).length;
 
-          if (ranksFound.length > 0 && deptsFound.length > 0) {
+          const isHomepage = url.replace(/\/$/, "") === homepage.replace(/\/$/, "");
+          if (ranksFound.length > 0 && deptsFound.length > 0 && !isHomepage) {
             anyConfirmed = true;
             ranksFound.forEach(r => allRanks.add(r));
             deptsFound.forEach(d => allDepts.add(d));
@@ -603,6 +613,11 @@ async function crawlInstitute(institute) {
   }
 
   if (!anyConfirmed) return null;
+
+  // Honour per-institute override from sources.json.
+  // Useful for institutes where rolling language is only in a PDF or portal
+  // that the scraper cannot read, but you have confirmed manually.
+  if (institute.force_rolling) rolling = true;
 
   const ranksArr = [...allRanks];
   const deptsArr = [...allDepts];
