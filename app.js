@@ -246,7 +246,7 @@
     // Persist to dismissed.json via a download — since GitHub Pages is static,
     // we cannot POST to a server. Instead we write to dismissed.json locally
     // and remind the user to commit it.
-    persistDismissal(inst.url, inst.name);
+    persistDismissal(inst.id, inst.url, inst.name);
   }
 
   // In-memory list of all dismissed entries for this session.
@@ -254,13 +254,13 @@
   // This means multiple dismissals in one session all accumulate into one file.
   let dismissedList = [];
 
-  function persistDismissal(url, name) {
+  function persistDismissal(id, url, name) {
     // Check not already present (avoids duplicates from double-clicks)
-    const already = dismissedList.some(d => d.url === url);
+    const already = dismissedList.some(d => d.id === id || d.url === url);
     if (already) return;
 
-    // Append to in-memory list
-    dismissedList.push({ url, name, dismissedAt: new Date().toISOString() });
+    // Append to in-memory list — id is the key the scraper uses to skip
+    dismissedList.push({ id, url, name, dismissedAt: new Date().toISOString() });
 
     const updated = {
       _note: "URLs in this list are permanently hidden from the site and skipped by the scraper. To restore a listing, delete its entry and re-run the scraper.",

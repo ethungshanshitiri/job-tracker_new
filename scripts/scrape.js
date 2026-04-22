@@ -50,18 +50,41 @@ const SOURCES   = JSON.parse(fs.readFileSync(path.join(ROOT, "config", "sources.
 const OUT_PATH       = path.join(ROOT, "data", "jobs.json");
 const DISMISSED_PATH = path.join(ROOT, "data", "dismissed.json");
 
-// Load dismissed URLs — permanently hidden from site and skipped by scraper.
-// To restore a listing, remove it from data/dismissed.json and re-run.
-function loadDismissed() {
+// Load dismissed and existing job ids for skip logic.
+// dismissed.json entries are matched by institute id (most reliable).
+// jobs.json entries are also checked — if an institute already has a confirmed
+// result from the last run, we skip re-crawling it to save time.
+// Both files are read once at startup.
+
+function loadDismissedIds() {
   try {
     const raw    = fs.readFileSync(DISMISSED_PATH, "utf8");
     const parsed = JSON.parse(raw);
-    return new Set((parsed.dismissed || []).map(d => d.url));
+    return new Set((parsed.dismissed || []).map(d => d.id).filter(Boolean));
   } catch {
     return new Set();
   }
 }
-const DISMISSED_URLS = loadDismissed();
+
+function loadExistingJobIds() {
+  try {
+    const raw    = fs.readFileSync(OUT_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    return new Set((parsed.results || []).map(r => r.id).filter(Boolean));
+  } catch {
+    return new Set();  // jobs.json missing or empty on first run
+  }
+}
+
+const DISMISSED_IDS  = loadDismissedIds();   // institutes to skip permanently
+const EXISTING_IDS   = loadExistingJobIds(); // institutes already confirmed in last run
+// Keep URL set for the output-filter step (backwards compat with older dismissed.json entries)
+const DISMISSED_URLS = (() => {
+  try {
+    const raw = fs.readFileSync(DISMISSED_PATH, "utf8");
+    return new Set((JSON.parse(raw).dismissed || []).map(d => d.url).filter(Boolean));
+  } catch { return new Set(); }
+})();
 
 // ─── Config from sources.json ────────────────────────────────────────────────
 
@@ -690,6 +713,19 @@ async function main() {
   const results = [];
 
   for (const institute of unique) {
+    // Skip if dismissed (permanent) or already confirmed in last jobs.json run.
+    // Both checks use the institute id — reliable across URL changes.
+    if (DISMISSED_IDS.has(institute.id)) {
+      console.log(`\n→ ${institute.name}  (${institute.homepage})`);
+      console.log(`  [skipped] dismissed — remove from data/dismissed.json to re-enable`);
+      continue;
+    }
+    if (EXISTING_IDS.has(institute.id)) {
+      console.log(`\n→ ${institute.name}  (${institute.homepage})`);
+      console.log(`  [skipped] already in jobs.json — delete jobs.json to force re-scan`);
+      continue;
+    }
+
     console.log(`\n→ ${institute.name}  (${institute.homepage})`);
     let result;
     try {
