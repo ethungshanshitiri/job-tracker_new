@@ -33,6 +33,17 @@ import http  from "http";
 import https from "https";
 import { fileURLToPath } from "url";
 
+// pdf-parse is an optional dependency for reading PDF recruitment notices.
+// Install with: npm install pdf-parse
+// If not installed, PDF links are skipped gracefully.
+let pdfParse = null;
+try {
+  const mod = await import("pdf-parse");
+  pdfParse = mod.default || mod;
+} catch {
+  // PDF support disabled — pdf-parse not installed
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, "..");
 const SOURCES   = JSON.parse(fs.readFileSync(path.join(ROOT, "config", "sources.json"), "utf8"));
@@ -118,6 +129,51 @@ async function fetchPage(url, redirectsLeft = 4) {
   });
 }
 
+// ─── PDF fetch ───────────────────────────────────────────────────────────────
+
+/**
+ * Fetch a PDF URL and extract its text using pdf-parse.
+ * Returns plain text string, or null if pdf-parse is not available or fetch fails.
+ */
+async function fetchPdfText(url) {
+  if (!pdfParse) return null;
+  return new Promise((resolve) => {
+    const proto = url.startsWith('https') ? https : http;
+    const req = proto.get(url, {
+      headers: { ...HEADERS, Accept: 'application/pdf,*/*' },
+      timeout: TIMEOUT_MS,
+    }, (res) => {
+      if (res.statusCode !== 200) { res.resume(); resolve(null); return; }
+      const ct = (res.headers['content-type'] || '').toLowerCase();
+      if (!ct.includes('pdf') && !url.toLowerCase().endsWith('.pdf')) {
+        res.resume(); resolve(null); return;
+      }
+      const chunks = [];
+      let bytes = 0;
+      res.on('data', chunk => {
+        bytes += chunk.length;
+        chunks.push(chunk);
+        if (bytes > MAX_BODY_BYTES) res.destroy();
+      });
+      res.on('end',   () => {
+        const buf = Buffer.concat(chunks);
+        pdfParse(buf)
+          .then(data => resolve(data.text || null))
+          .catch(() => resolve(null));
+      });
+      res.on('close', () => {
+        const buf = Buffer.concat(chunks);
+        pdfParse(buf)
+          .then(data => resolve(data.text || null))
+          .catch(() => resolve(null));
+      });
+      res.on('error', () => resolve(null));
+    });
+    req.on('timeout', () => { req.destroy(); resolve(null); });
+    req.on('error',   () => resolve(null));
+  });
+}
+
 // ─── HTML utilities ───────────────────────────────────────────────────────────
 
 /** Decode HTML entities and strip tags, returning readable plain text. */
@@ -174,8 +230,18 @@ function scoreLinkRelevance(href, anchorText, allDomains) {
   if (!allDomains.some(d => hLow.includes(d))) return -1;
 
   // Hard skip patterns — if any match, drop immediately
+  // Exception: .pdf is in the skip list to avoid random PDFs, but we allow
+  // PDFs that look recruitment-relevant (anchor or href contains a recruitment word)
+  const isPdf = hLow.endsWith('.pdf');
   for (const pat of SKIP_PATTERNS) {
+    if (pat === '.pdf') continue;  // handled separately below
     if (hLow.includes(pat) || aLow.includes(pat)) return -1;
+  }
+  if (isPdf) {
+    // PDF crawling disabled — causes too many false positives from
+    // non-teaching staff recruitment PDFs consuming the page budget.
+    // Re-enable once a stricter domain-level PDF allowlist is built.
+    return -1;
   }
 
   let score = 0;
@@ -374,6 +440,8 @@ function isRolling(text) {
   const low = text.toLowerCase();
   return (
     low.includes("rolling basis") ||
+    low.includes("rolling advertisement") ||
+    low.includes("rolling advt") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
     low.includes("applications are reviewed on a rolling")
@@ -414,7 +482,8 @@ async function crawlInstitute(institute) {
 
   const visited = new Set();
   // { url, depth, score } — scored during link extraction so BFS is priority-aware
-  const queue   = [{ url: homepage, depth: 0, linkScore: 100 }];
+  const seedUrls = [homepage, ...(institute.seed_urls || [])];
+  const queue    = seedUrls.map(u => ({ url: u, depth: 0, linkScore: 100 }));
   let   pagesVisited = 0;
 
   // Accumulate all confirmed findings across pages
@@ -438,15 +507,32 @@ async function crawlInstitute(institute) {
     // Polite delay
     await sleep(DELAY_MS);
 
-    let html;
-    try {
-      html = await fetchPage(url);
-    } catch (err) {
-      console.log(`    [fetch-err] ${url} — ${err.message}`);
-      continue;
-    }
+    // ── Determine if this is a PDF or HTML page ──
+    const isPdfUrl = url.toLowerCase().endsWith('.pdf');
+    let html = null;
+    let text = '';
 
-    const text = toText(html);
+    if (isPdfUrl) {
+      if (!pdfParse) {
+        console.log(`    [skip-pdf] ${url} — pdf-parse not installed`);
+        continue;
+      }
+      const pdfText = await fetchPdfText(url);
+      if (!pdfText) {
+        console.log(`    [fetch-err] ${url} — PDF extraction failed`);
+        continue;
+      }
+      text = pdfText;
+      console.log(`    [pdf] ${url.replace(homepage,'')} — extracted ${text.length} chars`);
+    } else {
+      try {
+        html = await fetchPage(url);
+      } catch (err) {
+        console.log(`    [fetch-err] ${url} — ${err.message}`);
+        continue;
+      }
+      text = toText(html);
+    }
 
     // ── Gate 1: page must have rank + active-intake phrase + department ──
     // Requiring all three prevents false positives from general faculty pages
@@ -465,7 +551,8 @@ async function crawlInstitute(institute) {
           const deptsFound = detectDepartments(text);
           const ic = INCL_KW.filter(k => textContains(text, k)).length;
 
-          if (ranksFound.length > 0 && deptsFound.length > 0) {
+          const isHomepage = url.replace(/\/$/, "") === homepage.replace(/\/$/, "");
+          if (ranksFound.length > 0 && deptsFound.length > 0 && !isHomepage) {
             anyConfirmed = true;
             ranksFound.forEach(r => allRanks.add(r));
             deptsFound.forEach(d => allDepts.add(d));
@@ -492,8 +579,8 @@ async function crawlInstitute(institute) {
       }
     }
 
-    // ── Extract and enqueue child links (if not at max depth) ──
-    if (depth < MAX_HOPS) {
+    // ── Extract and enqueue child links (HTML only, not PDFs) ──
+    if (depth < MAX_HOPS && html && !isPdfUrl) {
       const links = extractLinks(html, url);
       for (const { href, anchorText } of links) {
         if (visited.has(href)) continue;
