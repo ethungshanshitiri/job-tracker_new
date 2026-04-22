@@ -47,7 +47,21 @@ try {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, "..");
 const SOURCES   = JSON.parse(fs.readFileSync(path.join(ROOT, "config", "sources.json"), "utf8"));
-const OUT_PATH  = path.join(ROOT, "data", "jobs.json");
+const OUT_PATH       = path.join(ROOT, "data", "jobs.json");
+const DISMISSED_PATH = path.join(ROOT, "data", "dismissed.json");
+
+// Load dismissed URLs — permanently hidden from site and skipped by scraper.
+// To restore a listing, remove it from data/dismissed.json and re-run.
+function loadDismissed() {
+  try {
+    const raw    = fs.readFileSync(DISMISSED_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    return new Set((parsed.dismissed || []).map(d => d.url));
+  } catch {
+    return new Set();
+  }
+}
+const DISMISSED_URLS = loadDismissed();
 
 // ─── Config from sources.json ────────────────────────────────────────────────
 
@@ -238,10 +252,10 @@ function scoreLinkRelevance(href, anchorText, allDomains) {
     if (hLow.includes(pat) || aLow.includes(pat)) return -1;
   }
   if (isPdf) {
-    // PDF crawling disabled — causes too many false positives from
-    // non-teaching staff recruitment PDFs consuming the page budget.
-    // Re-enable once a stricter domain-level PDF allowlist is built.
-    return -1;
+    // Only allow PDFs that have a recruitment signal in the URL or anchor text
+    const hasPdfRecruitSignal = REC_PATTERNS.some(p => hLow.includes(p) || aLow.includes(p));
+    if (!hasPdfRecruitSignal) return -1;
+    return 4;  // fixed moderate score for recruitment PDFs
   }
 
   let score = 0;
@@ -440,8 +454,6 @@ function isRolling(text) {
   const low = text.toLowerCase();
   return (
     low.includes("rolling basis") ||
-    low.includes("rolling advertisement") ||
-    low.includes("rolling advt") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
     low.includes("applications are reviewed on a rolling")
@@ -482,8 +494,7 @@ async function crawlInstitute(institute) {
 
   const visited = new Set();
   // { url, depth, score } — scored during link extraction so BFS is priority-aware
-  const seedUrls = [homepage, ...(institute.seed_urls || [])];
-  const queue    = seedUrls.map(u => ({ url: u, depth: 0, linkScore: 100 }));
+  const queue   = [{ url: homepage, depth: 0, linkScore: 100 }];
   let   pagesVisited = 0;
 
   // Accumulate all confirmed findings across pages
@@ -551,8 +562,7 @@ async function crawlInstitute(institute) {
           const deptsFound = detectDepartments(text);
           const ic = INCL_KW.filter(k => textContains(text, k)).length;
 
-          const isHomepage = url.replace(/\/$/, "") === homepage.replace(/\/$/, "");
-          if (ranksFound.length > 0 && deptsFound.length > 0 && !isHomepage) {
+          if (ranksFound.length > 0 && deptsFound.length > 0) {
             anyConfirmed = true;
             ranksFound.forEach(r => allRanks.add(r));
             deptsFound.forEach(d => allDepts.add(d));
@@ -675,8 +685,13 @@ async function main() {
     }
 
     if (result && result.jobs.length > 0) {
-      console.log(`  ✓ ${result.jobs.length} job(s) confirmed | confidence: ${result.jobs[0]?.confidence} | pages scanned: ${result.pagesScanned}`);
-      results.push(result);
+      // Filter out dismissed URLs from the result
+      if (DISMISSED_URLS.has(result.url)) {
+        console.log(`  [dismissed] ${result.url} — skipped (in dismissed.json)`);
+      } else {
+        console.log(`  ✓ ${result.jobs.length} job(s) confirmed | confidence: ${result.jobs[0]?.confidence} | pages scanned: ${result.pagesScanned}`);
+        results.push(result);
+      }
     } else {
       console.log(`  — No confirmed openings found`);
     }

@@ -11,6 +11,7 @@
   // ── State ──────────────────────────────────────────────────────────────────
 
   let allData = [];
+  let dismissedUrls = new Set();  // URLs dismissed by the user via the X button
   let filters = {
     search: "",
     type: "all",   // all | IIT | NIT
@@ -41,6 +42,15 @@
       const json = await res.json();
 
       allData = json.results || [];
+
+      // Load dismissed URLs so we can hide them in the UI
+      try {
+        const dr = await fetch("data/dismissed.json?_=" + Date.now());
+        if (dr.ok) {
+          const dj = await dr.json();
+          dismissedUrls = new Set((dj.dismissed || []).map(d => d.url));
+        }
+      } catch { /* dismissed.json missing — treat as empty */ }
       const generatedAt = json.generatedAt;
 
       // Update header meta
@@ -75,6 +85,7 @@
 
   function applyFilters(data) {
     return data
+      .filter(inst => !dismissedUrls.has(inst.url))  // hide dismissed listings
       .map((inst) => {
         // Filter jobs within each institute
         const filteredJobs = inst.jobs.filter((job) => {
@@ -193,6 +204,7 @@
             Official page
           </a>
           <span class="card-timestamp">Checked ${ts}</span>
+          <button class="dismiss-btn" title="Mark as wrong listing" aria-label="Dismiss ${escHtml(inst.name)}" onclick="event.stopPropagation()">✕</button>
         </div>
       </div>
       <div class="card-jobs" id="jobs-${inst.id}" role="list">
@@ -210,7 +222,74 @@
       }
     });
 
+    // Dismiss button
+    const dismissBtn = card.querySelector(".dismiss-btn");
+    dismissBtn.addEventListener("click", () => dismissInstitute(inst, card));
+
     return card;
+  }
+
+  function dismissInstitute(inst, card) {
+    // Add to local dismissed set and hide card immediately
+    dismissedUrls.add(inst.url);
+    card.style.transition = "opacity 0.25s";
+    card.style.opacity = "0";
+    setTimeout(() => {
+      card.remove();
+      // Update result count
+      const remaining = document.querySelectorAll(".institute-card").length;
+      statShowing.textContent = remaining + " result" + (remaining !== 1 ? "s" : "");
+    }, 260);
+
+    // Persist to dismissed.json via a download — since GitHub Pages is static,
+    // we cannot POST to a server. Instead we write to dismissed.json locally
+    // and remind the user to commit it.
+    persistDismissal(inst.url, inst.name);
+  }
+
+  function persistDismissal(url, name) {
+    fetch("data/dismissed.json?_=" + Date.now())
+      .then(r => r.ok ? r.json() : { dismissed: [] })
+      .catch(() => ({ dismissed: [] }))
+      .then(existing => {
+        // Avoid duplicates
+        const already = (existing.dismissed || []).some(d => d.url === url);
+        if (already) return;
+
+        const updated = {
+          _note: "URLs in this list are permanently hidden from the site and skipped by the scraper. To restore a listing, delete its entry and re-run the scraper.",
+          dismissed: [
+            ...(existing.dismissed || []),
+            { url, name, dismissedAt: new Date().toISOString() }
+          ]
+        };
+
+        // Download the updated file so the user can replace data/dismissed.json
+        const blob = new Blob([JSON.stringify(updated, null, 2)], { type: "application/json" });
+        const a    = document.createElement("a");
+        a.href     = URL.createObjectURL(blob);
+        a.download = "dismissed.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+
+        showDismissNotice(name);
+      });
+  }
+
+  function showDismissNotice(name) {
+    // Show a brief notice explaining what to do with the downloaded file
+    const notice = document.createElement("div");
+    notice.className = "dismiss-notice";
+    notice.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span><strong>${escHtml(name)}</strong> dismissed. Replace <code>data/dismissed.json</code> with the downloaded file, then commit and push.</span>
+      <button class="dismiss-notice-close" aria-label="Close">✕</button>
+    `;
+    notice.querySelector(".dismiss-notice-close").addEventListener("click", () => notice.remove());
+    document.querySelector(".controls-bar")?.before(notice) || document.body.prepend(notice);
+    setTimeout(() => notice.remove(), 12000);
   }
 
   function toggleCard(card, header) {

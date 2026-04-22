@@ -552,3 +552,72 @@ body {
 
 /* ─── Focus visible ───────────────────────────────────────────────── */
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 3px; }
+.footer-credit { margin-top: 6px; font-style: italic; color: var(--ink-3); }
+
+/* ── Dismiss button ──────────────────────────────────────────────────────────── */
+
+.dismiss-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.institute-card:hover .dismiss-btn {
+  opacity: 1;
+}
+
+.dismiss-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ── Dismiss notice ──────────────────────────────────────────────────────────── */
+
+.dismiss-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #166534;
+  animation: fadeIn 0.2s ease;
+}
+
+.dismiss-notice code {
+  font-family: monospace;
+  font-size: 12px;
+  background: #dcfce7;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.dismiss-notice-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #166534;
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.dismiss-notice-close:hover {
+  background: #bbf7d0;
+}
