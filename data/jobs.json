@@ -17,7 +17,7 @@
           "department": "Electrical Engineering",
           "departmentFamily": "electrical_engineering",
           "deadline": null,
-          "rolling": false,
+          "rolling": true,
           "applicationMode": "See official page",
           "confidence": "medium",
           "notes": null
@@ -27,7 +27,7 @@
           "department": "Computer Science & Engineering",
           "departmentFamily": "computer_science",
           "deadline": null,
-          "rolling": false,
+          "rolling": true,
           "applicationMode": "See official page",
           "confidence": "medium",
           "notes": null
