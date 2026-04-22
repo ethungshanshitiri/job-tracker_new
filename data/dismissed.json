@@ -1,4 +1,10 @@
 {
   "_note": "URLs in this list are permanently hidden from the site and skipped by the scraper. To restore a listing, delete its entry and re-run the scraper.",
-  "dismissed": []
+  "dismissed": [
+    {
+      "url": "https://iitpkd.ac.in/notifications",
+      "name": "IIT Palakkad",
+      "dismissedAt": "2026-04-22T12:09:52.651Z"
+    }
+  ]
 }
