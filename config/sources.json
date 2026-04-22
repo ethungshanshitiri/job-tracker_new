@@ -4,7 +4,7 @@
   "notes": "Each entry stores only the institute homepage. The scraper crawls up to 3 hops deep from the homepage to find faculty recruitment pages automatically.",
 
   "iits": [
-    { "id": "iit-madras",      "name": "IIT Madras",           "homepage": "https://www.iitm.ac.in",          "domain": "iitm.ac.in",         "extra_domains": ["facapp.iitm.ac.in"] },
+    { "id": "iit-madras", "name": "IIT Madras", "homepage": "https://www.iitm.ac.in", "domain": "iitm.ac.in", "extra_domains": ["facapp.iitm.ac.in"], "seed_urls": ["https://www.iitm.ac.in/careers/prospective-faculty", "https://facapp.iitm.ac.in/"] },
     { "id": "iit-bombay",      "name": "IIT Bombay",           "homepage": "https://www.iitb.ac.in",          "domain": "iitb.ac.in" },
     { "id": "iit-delhi",       "name": "IIT Delhi",            "homepage": "https://home.iitd.ac.in",         "domain": "iitd.ac.in" },
     { "id": "iit-kanpur",      "name": "IIT Kanpur",           "homepage": "https://www.iitk.ac.in",          "domain": "iitk.ac.in" },
@@ -92,6 +92,18 @@
     ],
 
     "skip_link_patterns": [
+"recruit.iitm.ac.in",
+"R525",
+"_Syllabus_",
+"_L1list",
+"_L2-shortlisted",
+"-Selected",
+"HVAC",
+"_Officer",
+"shortlisted",
+"selected.pdf",
+"syllabus.pdf",
+"schedule.pdf",
       "FacultyAwards",
 "archive",
 "/Administration/",
@@ -222,7 +234,11 @@
     "invites applications",
     "regular faculty",
     "faculty appointment",
-    "applications invited for"
+    "applications invited for",
+"rolling advertisement",
+"rolling advt",
+"advertisement - 2026",
+"rolling basis recruitment"
   ],
 
   "exclusion_keywords": [
