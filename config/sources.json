@@ -11,6 +11,10 @@
       "seed_urls": [
         "https://www.iitm.ac.in/careers/prospective-faculty",
         "https://facapp.iitm.ac.in/"
+      ],
+      "force_rolling": true,
+      "extra_domains": [
+        "facapp.iitm.ac.in"
       ]
     },
     {
@@ -54,8 +58,7 @@
       "domain": "iitg.ac.in",
       "seed_urls": [
         "https://iitg.ac.in/iitg_page_details?page=61/fac_rec"
-      ],
-      "force_rolling": true
+      ]
     },
     {
       "id": "iit-hyderabad",
@@ -191,8 +194,7 @@
       "id": "nit-rourkela",
       "name": "NIT Rourkela",
       "homepage": "https://www.nitrkl.ac.in",
-      "domain": "nitrkl.ac.in",
-      "seed_urls": ["https://www.nitrkl.ac.in/Career/ClosedAdvt_Faculty/"]
+      "domain": "nitrkl.ac.in"
     },
     {
       "id": "nit-allahabad",
@@ -592,8 +594,7 @@
     "invites applications on a rolling",
     "recruitment on rolling",
     "rolling recruitment",
-    "applications will be reviewed",
-    "Closed Advertisements"
+    "applications will be reviewed"
   ],
   "exclusion_keywords": [
     "research assistant",
@@ -650,6 +651,11 @@
     "shortlisted candidates",
     "interview scheduled",
     "closed vide",
-    "Closed Advertisements"
+    "(closed)",
+    "portal is closed",
+    "application is closed",
+    "applications are closed",
+    "last date has passed",
+    "no vacancy"
   ]
 }
