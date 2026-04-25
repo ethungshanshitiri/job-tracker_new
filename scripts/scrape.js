@@ -522,6 +522,7 @@ async function crawlInstitute(institute) {
   let   bestUrl   = null;
   let   bestDeadline = null;
   let   rolling   = false;
+  let   advertDate = null;   // published date of the advertisement e.g. "Dated 27.02.2026"
   let   inclCount = 0;
   let   anyConfirmed = false;
 
@@ -600,6 +601,14 @@ async function crawlInstitute(institute) {
               if (!bestDeadline || pd < bestDeadline) bestDeadline = pd;
             }
             if (pr) rolling = true;
+            // Capture "Dated DD.MM.YYYY" or "Dated DD/MM/YYYY" as advertisement date
+            if (!advertDate) {
+              const adm = text.match(/dated\s+(\d{1,2})[.\/](\d{1,2})[.\/](20\d{2})/i);
+              if (adm) {
+                const [,d,m,y] = adm;
+                advertDate = `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;
+              }
+            }
 
             console.log(`    [match] ${url.replace(homepage, "")||"/"} — ranks: ${ranksFound.join(",")} depts: ${deptsFound.join(",")} rolling: ${pr} deadline: ${pd||"none"}`);
           }
