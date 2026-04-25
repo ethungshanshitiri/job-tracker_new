@@ -458,12 +458,22 @@
   const toggleLabel   = document.getElementById("filters-toggle-label");
 
   if (filtersToggle) {
-    filtersToggle.addEventListener("click", (e) => {
+    const doToggle = (e) => {
       e.stopPropagation();
       const isOpen = filtersPanel.classList.toggle("filters-open");
       filtersToggle.setAttribute("aria-expanded", isOpen);
       toggleLabel.textContent = isOpen ? "Hide" : "Show";
-    });
+    };
+
+    filtersToggle.addEventListener("click", doToggle);
+
+    // Also make the whole header row a tap target on mobile
+    const filtersHeader = document.getElementById("filters-header");
+    if (filtersHeader) {
+      filtersHeader.addEventListener("click", (e) => {
+        if (window.innerWidth <= 860) doToggle(e);
+      });
+    }
 
     // Collapse when tapping outside the panel on mobile
     document.addEventListener("click", (e) => {
