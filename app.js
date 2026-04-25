@@ -316,14 +316,16 @@
       deadlineHtml = `<span class="job-deadline ${isSoon ? "soon" : ""}">Due ${formatDate(job.deadline)}</span>`;
     }
 
-    const lowConf = job.confidence === "low";
+    const conf      = job.confidence || "medium";
+    const confIcon  = conf === "high" ? "✓" : conf === "medium" ? "~" : "⚠";
+    const confClass = `confidence-tag confidence-${conf}`;
 
     return `
       <div class="job-row" role="listitem">
         <div class="job-row-left">
           <span class="job-rank">${escHtml(job.rank)}</span>
           <span class="job-dept">${escHtml(job.department)}</span>
-          <span class="confidence-tag ${lowConf ? "" : "hidden"}">⚠ Low confidence — verify manually</span>
+          <span class="${confClass}">${confIcon} ${conf.charAt(0).toUpperCase() + conf.slice(1)} confidence</span>
         </div>
         <div class="job-row-right">
           <span class="status-pill ${statusClass}">${statusPill}</span>
@@ -451,43 +453,5 @@
   // ── Init ───────────────────────────────────────────────────────────────────
 
   wireEvents();
-
-  // ── Mobile filter panel toggle ──────────────────────────────────────────────
-  const filtersPanel  = document.getElementById("filters-panel");
-  const filtersToggle = document.getElementById("filters-toggle");
-  const toggleLabel   = document.getElementById("filters-toggle-label");
-
-  if (filtersToggle) {
-    const doToggle = (e) => {
-      e.stopPropagation();
-      const isOpen = filtersPanel.classList.toggle("filters-open");
-      filtersToggle.setAttribute("aria-expanded", isOpen);
-      toggleLabel.textContent = isOpen ? "Hide" : "Show";
-    };
-
-    filtersToggle.addEventListener("click", doToggle);
-
-    // Also make the whole header row a tap target on mobile
-    const filtersHeader = document.getElementById("filters-header");
-    if (filtersHeader) {
-      filtersHeader.addEventListener("click", (e) => {
-        if (window.innerWidth <= 860) doToggle(e);
-      });
-    }
-
-    // Collapse when tapping outside the panel on mobile
-    document.addEventListener("click", (e) => {
-      if (
-        window.innerWidth <= 860 &&
-        filtersPanel.classList.contains("filters-open") &&
-        !filtersPanel.contains(e.target)
-      ) {
-        filtersPanel.classList.remove("filters-open");
-        filtersToggle.setAttribute("aria-expanded", "false");
-        toggleLabel.textContent = "Show";
-      }
-    });
-  }
-
   boot();
 })();
