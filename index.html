@@ -39,10 +39,17 @@
   <main class="main-layout">
     <!-- ── Filters sidebar ── -->
     <aside class="filters-panel" id="filters-panel">
-      <div class="filters-header">
+      <div class="filters-header" id="filters-header">
         <h2 class="filters-title">Filter</h2>
-        <button class="btn-reset" id="btn-reset">Clear all</button>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="btn-reset" id="btn-reset">Clear all</button>
+          <button class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="filters-body">
+            <span id="filters-toggle-label">Show</span>
+            <svg class="filters-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
       </div>
+      <div class="filters-body" id="filters-body">
 
       <div class="filter-group">
         <label class="filter-label">Search</label>
@@ -97,6 +104,7 @@
 
       <div class="filter-group filter-group--stat">
         <span class="stat-showing" id="stat-showing">— results</span>
+      </div>
       </div>
     </aside>
 

@@ -43,14 +43,12 @@
 
       allData = json.results || [];
 
-      // Load dismissed URLs so we can hide them in the UI.
-      // Also seed dismissedList so session dismissals accumulate correctly.
+      // Load dismissed URLs so we can hide them in the UI
       try {
         const dr = await fetch("data/dismissed.json?_=" + Date.now());
         if (dr.ok) {
           const dj = await dr.json();
-          dismissedList = dj.dismissed || [];
-          dismissedUrls = new Set(dismissedList.map(d => d.url));
+          dismissedUrls = new Set((dj.dismissed || []).map(d => d.url));
         }
       } catch { /* dismissed.json missing — treat as empty */ }
       const generatedAt = json.generatedAt;
@@ -246,36 +244,36 @@
     // Persist to dismissed.json via a download — since GitHub Pages is static,
     // we cannot POST to a server. Instead we write to dismissed.json locally
     // and remind the user to commit it.
-    persistDismissal(inst.id, inst.url, inst.name);
+    persistDismissal(inst.url, inst.name);
   }
 
-  // In-memory list of all dismissed entries for this session.
-  // Seeded from dismissed.json at boot, then appended to on each dismissal.
-  // This means multiple dismissals in one session all accumulate into one file.
-  let dismissedList = [];
+  function persistDismissal(url, name) {
+    fetch("data/dismissed.json?_=" + Date.now())
+      .then(r => r.ok ? r.json() : { dismissed: [] })
+      .catch(() => ({ dismissed: [] }))
+      .then(existing => {
+        // Avoid duplicates
+        const already = (existing.dismissed || []).some(d => d.url === url);
+        if (already) return;
 
-  function persistDismissal(id, url, name) {
-    // Check not already present (avoids duplicates from double-clicks)
-    const already = dismissedList.some(d => d.id === id || d.url === url);
-    if (already) return;
+        const updated = {
+          _note: "URLs in this list are permanently hidden from the site and skipped by the scraper. To restore a listing, delete its entry and re-run the scraper.",
+          dismissed: [
+            ...(existing.dismissed || []),
+            { url, name, dismissedAt: new Date().toISOString() }
+          ]
+        };
 
-    // Append to in-memory list — id is the key the scraper uses to skip
-    dismissedList.push({ id, url, name, dismissedAt: new Date().toISOString() });
+        // Download the updated file so the user can replace data/dismissed.json
+        const blob = new Blob([JSON.stringify(updated, null, 2)], { type: "application/json" });
+        const a    = document.createElement("a");
+        a.href     = URL.createObjectURL(blob);
+        a.download = "dismissed.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
 
-    const updated = {
-      _note: "URLs in this list are permanently hidden from the site and skipped by the scraper. To restore a listing, delete its entry and re-run the scraper.",
-      dismissed: dismissedList
-    };
-
-    // Download — always the same filename so browser replaces previous download
-    const blob = new Blob([JSON.stringify(updated, null, 2)], { type: "application/json" });
-    const a    = document.createElement("a");
-    a.href     = URL.createObjectURL(blob);
-    a.download = "dismissed.json";
-    a.click();
-    URL.revokeObjectURL(a.href);
-
-    showDismissNotice(name);
+        showDismissNotice(name);
+      });
   }
 
   function showDismissNotice(name) {
@@ -286,7 +284,7 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="20 6 9 17 4 12"/>
       </svg>
-      <span><strong>${escHtml(name)}</strong> dismissed. Move the downloaded <code>dismissed.json</code> to <code>data/</code> in your project, then commit and push. Multiple dismissals in the same session are combined into one file.</span>
+      <span><strong>${escHtml(name)}</strong> dismissed. Replace <code>data/dismissed.json</code> with the downloaded file, then commit and push.</span>
       <button class="dismiss-notice-close" aria-label="Close">✕</button>
     `;
     notice.querySelector(".dismiss-notice-close").addEventListener("click", () => notice.remove());
@@ -453,5 +451,33 @@
   // ── Init ───────────────────────────────────────────────────────────────────
 
   wireEvents();
+
+  // ── Mobile filter panel toggle ──────────────────────────────────────────────
+  const filtersPanel  = document.getElementById("filters-panel");
+  const filtersToggle = document.getElementById("filters-toggle");
+  const toggleLabel   = document.getElementById("filters-toggle-label");
+
+  if (filtersToggle) {
+    filtersToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = filtersPanel.classList.toggle("filters-open");
+      filtersToggle.setAttribute("aria-expanded", isOpen);
+      toggleLabel.textContent = isOpen ? "Hide" : "Show";
+    });
+
+    // Collapse when tapping outside the panel on mobile
+    document.addEventListener("click", (e) => {
+      if (
+        window.innerWidth <= 860 &&
+        filtersPanel.classList.contains("filters-open") &&
+        !filtersPanel.contains(e.target)
+      ) {
+        filtersPanel.classList.remove("filters-open");
+        filtersToggle.setAttribute("aria-expanded", "false");
+        toggleLabel.textContent = "Show";
+      }
+    });
+  }
+
   boot();
 })();

@@ -159,11 +159,42 @@ body {
 @media (max-width: 860px) {
   .main-layout {
     grid-template-columns: 1fr;
-    padding: 20px 16px;
-    gap: 20px;
+    padding: 16px;
+    gap: 16px;
   }
   .header-inner { padding: 20px 16px; }
   .disclaimer-bar { padding: 8px 16px; }
+
+  /* On mobile the filter panel is collapsible.
+     JS toggles .filters-open on the panel to expand it. */
+  .filters-panel {
+    position: static;
+    padding: 0;
+  }
+
+  .filters-toggle {
+    display: flex;         /* visible on mobile */
+  }
+
+  .filters-body {
+    display: none;         /* collapsed by default */
+    padding: 16px 20px 20px;
+    border-top: 1px solid var(--paper-3);
+  }
+
+  .filters-panel.filters-open .filters-body {
+    display: block;
+  }
+
+  .filters-panel.filters-open .filters-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .filters-header {
+    padding: 14px 20px;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
 }
 
 /* ─── Filters panel ───────────────────────────────────────────────── */
@@ -620,4 +651,33 @@ body {
 
 .dismiss-notice-close:hover {
   background: #bbf7d0;
+}
+
+/* ── Mobile filter toggle ────────────────────────────────────────────────────── */
+
+.filters-toggle {
+  display: none;           /* hidden on desktop */
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ink-3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.filters-toggle-icon {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.filters-toggle-count {
+  font-size: 10px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 100px;
+  padding: 1px 7px;
+  font-family: 'IBM Plex Mono', monospace;
 }
