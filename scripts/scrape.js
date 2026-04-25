@@ -79,7 +79,17 @@ const RANKS      = SOURCES.target_ranks;                     // lowercase alread
 const DEPT_MAP   = buildDeptMap(SOURCES.target_departments); // phrase → familyKey
 const INCL_KW    = SOURCES.inclusion_keywords.map(s => s.toLowerCase());
 const EXCL_KW    = SOURCES.exclusion_keywords.map(s => s.toLowerCase());
-const CLOSED_SIG = SOURCES.closed_signals.map(s => s.toLowerCase());
+const CLOSED_SIG = [
+  ...SOURCES.closed_signals.map(s => s.toLowerCase()),
+  // Extra patterns observed on real institute pages
+  "(closed)",              // IIT Guwahati: "advertisement ... (CLOSED)"
+  "portal is closed",      // IIT Madras 2025: "online application is closed"
+  "application is closed",
+  "applications are closed",
+  "last date has passed",
+  "no vacancy",
+  "post has been filled",
+];
 
 const DEPT_DISPLAY = {
   electrical_engineering:   "Electrical Engineering",
@@ -454,9 +464,17 @@ function isRolling(text) {
   const low = text.toLowerCase();
   return (
     low.includes("rolling basis") ||
+    low.includes("rolling advertisement") ||
+    low.includes("rolling advt") ||
+    low.includes("rolling recruitment") ||
+    low.includes("open on rolling") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
-    low.includes("applications are reviewed on a rolling")
+    low.includes("applications are reviewed on a rolling") ||
+    low.includes("applications will be reviewed") ||
+    low.includes("invites applications on a rolling") ||
+    low.includes("positions are open on") ||
+    low.includes("faculty positions are open")
   );
 }
 
@@ -494,7 +512,8 @@ async function crawlInstitute(institute) {
 
   const visited = new Set();
   // { url, depth, score } — scored during link extraction so BFS is priority-aware
-  const queue   = [{ url: homepage, depth: 0, linkScore: 100 }];
+  const seedUrls = [homepage, ...(institute.seed_urls || [])];
+  const queue    = seedUrls.map(u => ({ url: u, depth: 0, linkScore: 100 }));
   let   pagesVisited = 0;
 
   // Accumulate all confirmed findings across pages
@@ -562,7 +581,8 @@ async function crawlInstitute(institute) {
           const deptsFound = detectDepartments(text);
           const ic = INCL_KW.filter(k => textContains(text, k)).length;
 
-          if (ranksFound.length > 0 && deptsFound.length > 0) {
+          const isHomepage = url.replace(/\/$/, "") === homepage.replace(/\/$/, "");
+          if (ranksFound.length > 0 && deptsFound.length > 0 && !isHomepage) {
             anyConfirmed = true;
             ranksFound.forEach(r => allRanks.add(r));
             deptsFound.forEach(d => allDepts.add(d));
@@ -618,10 +638,11 @@ async function crawlInstitute(institute) {
   });
 
   // ── Gate 4: weak signal filter ───────────────────────────────────────────
-  // Medium confidence with no deadline and no rolling is too unreliable —
-  // typically a directory or admin page, not an active recruitment notice.
-  if (confidence === "medium" && !rolling && !bestDeadline) {
-    console.log(`  [gate4] ${name} — medium conf, no deadline, no rolling — suppressed`);
+  // Suppress if medium confidence with no deadline, no rolling, AND low inclusion count.
+  // A page with 3+ strong inclusion keywords passes even without a deadline —
+  // it is clearly a recruitment page (e.g. IIT Madras /careers/prospective-faculty).
+  if (confidence === "medium" && !rolling && !bestDeadline && inclCount < 3) {
+    console.log(`  [gate4] ${name} — medium conf, no deadline, no rolling, only ${inclCount} inclusion kw — suppressed`);
     return null;
   }
   if (confidence === "low") {
@@ -653,6 +674,7 @@ async function crawlInstitute(institute) {
     name,
     type: institute.instType,
     url:  bestUrl || homepage,
+    advertDate,
     status:    "active",
     checkedAt,
     pagesScanned: pagesVisited,

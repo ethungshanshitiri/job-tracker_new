@@ -452,17 +452,10 @@ body {
 
 .confidence-tag {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  margin-top: 2px;
+  font-size: 9px;
+  color: var(--amber);
 }
 .confidence-tag.hidden { display: none; }
-.confidence-high  { color: var(--green); }
-.confidence-medium { color: var(--amber); }
-.confidence-low   { color: var(--accent); }
 
 /* ─── Loading & empty states ──────────────────────────────────────── */
 
@@ -627,4 +620,12 @@ body {
 
 .dismiss-notice-close:hover {
   background: #bbf7d0;
+}
+
+/* ── Advertisement date ───────────────────────────────────────────────────── */
+.card-advert-date {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--green);
+  white-space: nowrap;
 }

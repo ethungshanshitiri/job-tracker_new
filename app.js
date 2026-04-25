@@ -170,6 +170,9 @@
 
     const badgeClass = inst.type === "IIT" ? "badge-iit" : "badge-nit";
     const ts = inst.checkedAt ? formatRelativeTime(new Date(inst.checkedAt)) : "—";
+    const advertHtml = inst.advertDate
+      ? `<span class="card-advert-date">Advertised ${formatDate(inst.advertDate)}</span>`
+      : "";
     const jobCount = inst.jobs.length;
 
     // Count unique mode types
@@ -203,6 +206,7 @@
             </svg>
             Official page
           </a>
+          ${advertHtml}
           <span class="card-timestamp">Checked ${ts}</span>
           <button class="dismiss-btn" title="Mark as wrong listing" aria-label="Dismiss ${escHtml(inst.name)}" onclick="event.stopPropagation()">✕</button>
         </div>
