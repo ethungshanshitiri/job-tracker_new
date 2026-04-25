@@ -191,7 +191,8 @@
       "id": "nit-rourkela",
       "name": "NIT Rourkela",
       "homepage": "https://www.nitrkl.ac.in",
-      "domain": "nitrkl.ac.in"
+      "domain": "nitrkl.ac.in",
+      "seed_urls": ["https://www.nitrkl.ac.in/Career/ClosedAdvt_Faculty/"]
     },
     {
       "id": "nit-allahabad",
@@ -591,7 +592,8 @@
     "invites applications on a rolling",
     "recruitment on rolling",
     "rolling recruitment",
-    "applications will be reviewed"
+    "applications will be reviewed",
+    "Closed Advertisements"
   ],
   "exclusion_keywords": [
     "research assistant",
@@ -647,6 +649,7 @@
     "has been cancelled",
     "shortlisted candidates",
     "interview scheduled",
-    "closed vide"
+    "closed vide",
+    "Closed Advertisements"
   ]
 }
