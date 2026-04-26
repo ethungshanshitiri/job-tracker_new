@@ -225,7 +225,8 @@
       "homepage": "https://www.nitt.edu",
       "domain": "nitt.edu",
       "seed_urls": [
-        "https://www.nitt.edu/home/other/jobs/"
+        "https://www.nitt.edu/home/other/jobs/",
+        "https://www.nitt.edu/home/academics/departments/faculty/faculty-recruitment/"
       ]
     },
     {
@@ -234,7 +235,8 @@
       "homepage": "https://www.nitw.ac.in",
       "domain": "nitw.ac.in",
       "seed_urls": [
-        "https://recruit.nitw.ac.in"
+        "https://recruit.nitw.ac.in",
+        "https://www.nitw.ac.in/faculty"
       ]
     },
     {
@@ -243,176 +245,289 @@
       "homepage": "https://www.nitk.ac.in",
       "domain": "nitk.ac.in",
       "seed_urls": [
-        "https://www.nitk.ac.in/Assistant-Professor_Faculty_Recruitment"
+        "https://www.nitk.ac.in/Assistant-Professor_Faculty_Recruitment",
+        "http://facultyrecruitment.nitk.ac.in/"
       ]
     },
     {
       "id": "nit-calicut",
       "name": "NIT Calicut",
       "homepage": "https://www.nitc.ac.in",
-      "domain": "nitc.ac.in"
+      "domain": "nitc.ac.in",
+      "seed_urls": [
+        "https://nitc.ac.in/faculty-recruitments",
+        "https://nitc.ac.in/recruitments/faculty-recruitment/rolling-advertisement-for-recruitment-of-faculty-positionsadvertisement-no-nitc456fr-rol-advt2025-dated22092025"
+      ],
+      "force_rolling": true
     },
     {
       "id": "nit-rourkela",
       "name": "NIT Rourkela",
       "homepage": "https://www.nitrkl.ac.in",
-      "domain": "nitrkl.ac.in"
+      "domain": "nitrkl.ac.in",
+      "seed_urls": [
+        "https://www.nitrkl.ac.in/Career/Faculty/",
+        "https://facultyrecruitment.nitrkl.ac.in/"
+      ]
     },
     {
       "id": "nit-allahabad",
       "name": "MNNIT Allahabad",
       "homepage": "https://www.mnnit.ac.in",
-      "domain": "mnnit.ac.in"
+      "domain": "mnnit.ac.in",
+      "seed_urls": [
+        "https://www.mnnit.ac.in/index.php/announcements/429-regular-faculty-positions",
+        "https://recruitments.mnnit.ac.in/rolling/"
+      ],
+      "force_rolling": true
     },
     {
       "id": "nit-jaipur",
       "name": "MNIT Jaipur",
       "homepage": "https://www.mnit.ac.in",
-      "domain": "mnit.ac.in"
+      "domain": "mnit.ac.in",
+      "seed_urls": [
+        "https://mnit.ac.in/quick_links/recruitment",
+        "https://recruitment.mnit.ac.in/Teaching2024/"
+      ]
     },
     {
       "id": "nit-kurukshetra",
       "name": "NIT Kurukshetra",
       "homepage": "https://www.nitkkr.ac.in",
-      "domain": "nitkkr.ac.in"
+      "domain": "nitkkr.ac.in",
+      "seed_urls": [
+        "https://www.nitkkr.ac.in/recruitment.html",
+        "https://www.nitkkr.ac.in/Jobs/faculty"
+      ]
     },
     {
       "id": "nit-durgapur",
       "name": "NIT Durgapur",
       "homepage": "https://www.nitdgp.ac.in",
-      "domain": "nitdgp.ac.in"
+      "domain": "nitdgp.ac.in",
+      "seed_urls": [
+        "https://www.nitdgp.ac.in/page/faculty-recruitment",
+        "https://www.nitdgp.ac.in/recruitments"
+      ]
     },
     {
       "id": "nit-patna",
       "name": "NIT Patna",
       "homepage": "https://www.nitp.ac.in",
-      "domain": "nitp.ac.in"
+      "domain": "nitp.ac.in",
+      "seed_urls": [
+        "https://www.nitp.ac.in/php/recruitment.php",
+        "https://www.nitp.ac.in/Administration/Recruitment"
+      ]
     },
     {
       "id": "nit-silchar",
       "name": "NIT Silchar",
       "homepage": "https://www.nits.ac.in",
-      "domain": "nits.ac.in"
+      "domain": "nits.ac.in",
+      "seed_urls": [
+        "https://www.nits.ac.in/employment",
+        "http://old.nits.ac.in/recruitment.php",
+        "http://recruitment.nits.ac.in/"
+      ]
     },
     {
       "id": "nit-nagpur",
       "name": "VNIT Nagpur",
       "homepage": "https://www.vnit.ac.in",
-      "domain": "vnit.ac.in"
+      "domain": "vnit.ac.in",
+      "seed_urls": [
+        "https://www.vnit.ac.in/recruitment.html",
+        "http://www.vnit.ac.in/Faculty_Recruitment.html"
+      ]
     },
     {
       "id": "nit-hamirpur",
       "name": "NIT Hamirpur",
       "homepage": "https://www.nith.ac.in",
-      "domain": "nith.ac.in"
+      "domain": "nith.ac.in",
+      "seed_urls": [
+        "https://www.nith.ac.in/recruitment/faculty",
+        "https://www.nith.ac.in/td/index.html"
+      ]
     },
     {
       "id": "nit-agartala",
       "name": "NIT Agartala",
       "homepage": "https://www.nita.ac.in",
-      "domain": "nita.ac.in"
+      "domain": "nita.ac.in",
+      "seed_urls": [
+        "https://www.nita.ac.in/UserPanel/Minutes_Others.aspx?file=Recruitment",
+        "https://hr.nita.ac.in/"
+      ]
     },
     {
       "id": "nit-surat",
       "name": "SVNIT Surat",
       "homepage": "https://www.svnit.ac.in",
-      "domain": "svnit.ac.in"
+      "domain": "svnit.ac.in",
+      "seed_urls": [
+        "https://www.svnit.ac.in/web/jobs.php",
+        "https://www.svnit.ac.in/web/FacultyRecruitment.php"
+      ]
     },
     {
       "id": "nit-jalandhar",
       "name": "NIT Jalandhar",
       "homepage": "https://www.nitj.ac.in",
-      "domain": "nitj.ac.in"
+      "domain": "nitj.ac.in",
+      "seed_urls": [
+        "https://www.nitj.ac.in/index.html#recruitment",
+        "https://www.nitj.ac.in/template/index.html?id=6709163583b910f5bc5e2cf1?category=newpage"
+      ]
     },
     {
       "id": "nit-bhopal",
       "name": "MANIT Bhopal",
       "homepage": "https://www.manit.ac.in",
-      "domain": "manit.ac.in"
+      "domain": "manit.ac.in",
+      "seed_urls": [
+        "https://www.manit.ac.in/content/careers",
+        "https://www.manit.ac.in/faculty-recruitment"
+      ]
     },
     {
       "id": "nit-jamshedpur",
       "name": "NIT Jamshedpur",
       "homepage": "https://www.nitjsr.ac.in",
-      "domain": "nitjsr.ac.in"
+      "domain": "nitjsr.ac.in",
+      "seed_urls": [
+        "https://www.nitjsr.ac.in/app/webroot/upload/Notices/",
+        "https://www.nitjsr.ac.in/noticeList/Faculty_Recruitment"
+      ]
     },
     {
       "id": "nit-raipur",
       "name": "NIT Raipur",
       "homepage": "https://www.nitrr.ac.in",
-      "domain": "nitrr.ac.in"
+      "domain": "nitrr.ac.in",
+      "seed_urls": [
+        "https://www.nitrr.ac.in/advertisement.php",
+        "https://www.nitrr.ac.in/asst_prof.php"
+      ]
     },
     {
       "id": "nit-delhi",
       "name": "NIT Delhi",
       "homepage": "https://nitdelhi.ac.in",
-      "domain": "nitdelhi.ac.in"
+      "domain": "nitdelhi.ac.in",
+      "seed_urls": [
+        "https://nitdelhi.ac.in/faculty-recruitment_advt-no-21-2025/"
+      ]
     },
     {
       "id": "nit-goa",
       "name": "NIT Goa",
       "homepage": "https://www.nitgoa.ac.in",
-      "domain": "nitgoa.ac.in"
+      "domain": "nitgoa.ac.in",
+      "seed_urls": [
+        "https://www.nitgoa.ac.in/Faculty_Recruitment.html",
+        "https://nitgoa.ac.in/People/frontend/faculty_recruitment.html"
+      ]
     },
     {
       "id": "nit-manipur",
       "name": "NIT Manipur",
       "homepage": "https://www.nitmanipur.ac.in",
-      "domain": "nitmanipur.ac.in"
+      "domain": "nitmanipur.ac.in",
+      "seed_urls": [
+        "https://www.nitmanipur.ac.in/ViewAll.aspx?view=Vacancies",
+        "https://www.nitmanipur.ac.in/UserPanel/Vacancy.aspx"
+      ]
     },
     {
       "id": "nit-meghalaya",
       "name": "NIT Meghalaya",
       "homepage": "https://www.nitm.ac.in",
-      "domain": "nitm.ac.in"
+      "domain": "nitm.ac.in",
+      "seed_urls": [
+        "https://nitm.ac.in/recruitment",
+        "https://www.nitm.ac.in/recruitment/advertisement-for-faculty-positions-at-nit-meghalaya-14"
+      ]
     },
     {
       "id": "nit-mizoram",
       "name": "NIT Mizoram",
       "homepage": "https://www.nitmz.ac.in",
-      "domain": "nitmz.ac.in"
+      "domain": "nitmz.ac.in",
+      "seed_urls": [
+        "https://www.nitmz.ac.in/recruitment/",
+        "https://nitmz.ac.in/faculty-recruitment"
+      ]
     },
     {
       "id": "nit-nagaland",
       "name": "NIT Nagaland",
       "homepage": "https://www.nitnagaland.ac.in",
-      "domain": "nitnagaland.ac.in"
+      "domain": "nitnagaland.ac.in",
+      "seed_urls": [
+        "https://www.nitnagaland.ac.in/index.php/vacancies",
+        "https://www.nitnagaland.ac.in/index.php/faculty-recruitment"
+      ]
     },
     {
       "id": "nit-arunachal",
       "name": "NIT Arunachal Pradesh",
       "homepage": "https://www.nitap.ac.in",
-      "domain": "nitap.ac.in"
+      "domain": "nitap.ac.in",
+      "seed_urls": [
+        "https://www.nitap.ac.in/category_list_details?cate=Recruitments"
+      ]
     },
     {
       "id": "nit-sikkim",
       "name": "NIT Sikkim",
       "homepage": "https://www.nitsikkim.ac.in",
-      "domain": "nitsikkim.ac.in"
+      "domain": "nitsikkim.ac.in",
+      "seed_urls": [
+        "https://www.nitsikkim.ac.in/recruitment",
+        "https://nitsikkim.ac.in/job%20opportunity/teaching2023.php"
+      ]
     },
     {
       "id": "nit-andhra",
       "name": "NIT Andhra Pradesh",
       "homepage": "https://www.nitandhra.ac.in",
-      "domain": "nitandhra.ac.in"
+      "domain": "nitandhra.ac.in",
+      "seed_urls": [
+        "https://www.nitandhra.ac.in/main/recruitment/faculty"
+      ]
     },
     {
       "id": "nit-puducherry",
       "name": "NIT Puducherry",
       "homepage": "https://www.nitpy.ac.in",
-      "domain": "nitpy.ac.in"
+      "domain": "nitpy.ac.in",
+      "seed_urls": [
+        "https://www.nitpy.ac.in/Recruitment.aspx",
+        "https://www.nitpy.ac.in/index.php?route=faculty/recruitment"
+      ]
     },
     {
       "id": "nit-uttarakhand",
       "name": "NIT Uttarakhand",
       "homepage": "https://www.nituk.ac.in",
-      "domain": "nituk.ac.in"
+      "domain": "nituk.ac.in",
+      "seed_urls": [
+        "https://nituk.ac.in/recruitments",
+        "https://www.nituk.ac.in/faculty-recruitment"
+      ]
     },
     {
       "id": "nit-srinagar",
       "name": "NIT Srinagar",
       "homepage": "https://www.nitsri.ac.in",
-      "domain": "nitsri.ac.in"
+      "domain": "nitsri.ac.in",
+      "seed_urls": [
+        "https://www.nitsri.ac.in/Pages/Recruitment.aspx",
+        "https://www.nitsri.ac.in/Pages/Faculty_Recruitment.aspx"
+      ]
     }
   ],
   "crawler": {
