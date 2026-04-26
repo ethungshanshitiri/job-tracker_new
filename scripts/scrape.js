@@ -467,6 +467,9 @@ function isRolling(text) {
     low.includes("rolling advertisement") ||
     low.includes("rolling advt") ||
     low.includes("rolling recruitment") ||
+    low.includes("this is a rolling") ||
+    low.includes("regular drive is opened") ||
+    low.includes("regular drive (rolling") ||
     low.includes("open on rolling") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
@@ -474,7 +477,15 @@ function isRolling(text) {
     low.includes("applications will be reviewed") ||
     low.includes("invites applications on a rolling") ||
     low.includes("positions are open on") ||
-    low.includes("faculty positions are open")
+    low.includes("faculty positions are open") ||
+    low.includes("no specific last date") ||
+    low.includes("no last date for") ||
+    low.includes("throughout the year") ||
+    low.includes("processed periodically") ||
+    low.includes("processed in batches") ||
+    low.includes("applications will be accepted online throughout") ||
+    low.includes("applications are accepted throughout") ||
+    low.includes("standing advertisement")
   );
 }
 

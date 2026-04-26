@@ -21,13 +21,22 @@
       "id": "iit-bombay",
       "name": "IIT Bombay",
       "homepage": "https://www.iitb.ac.in",
-      "domain": "iitb.ac.in"
+      "domain": "iitb.ac.in",
+      "seed_urls": [
+        "https://www.iitb.ac.in/en/faculty/faculty-recruitment",
+        "https://www.iitb.ac.in/job-vacancy-ad/rolling-advertisement-no-l-1025-26"
+      ],
+      "force_rolling": true
     },
     {
       "id": "iit-delhi",
       "name": "IIT Delhi",
       "homepage": "https://home.iitd.ac.in",
-      "domain": "iitd.ac.in"
+      "domain": "iitd.ac.in",
+      "seed_urls": [
+        "https://home.iitd.ac.in/jobs-iitd/index.php"
+      ],
+      "force_rolling": true
     },
     {
       "id": "iit-kanpur",
@@ -35,21 +44,28 @@
       "homepage": "https://www.iitk.ac.in",
       "domain": "iitk.ac.in",
       "seed_urls": [
-        "https://www.iitk.ac.in/faculty-recruitment",
-        "https://www.iitk.ac.in/dofa/rolling-advertisement"
-      ]
+        "https://www.iitk.ac.in/dofa/index.php/rolling-advertisement"
+      ],
+      "force_rolling": true
     },
     {
       "id": "iit-kharagpur",
       "name": "IIT Kharagpur",
       "homepage": "https://www.iitkgp.ac.in",
-      "domain": "iitkgp.ac.in"
+      "domain": "iitkgp.ac.in",
+      "seed_urls": [
+        "https://erp.iitkgp.ac.in/Jobs/auth/facapps.htm"
+      ],
+      "force_rolling": true
     },
     {
       "id": "iit-roorkee",
       "name": "IIT Roorkee",
       "homepage": "https://www.iitr.ac.in",
-      "domain": "iitr.ac.in"
+      "domain": "iitr.ac.in",
+      "seed_urls": [
+        "https://iitr.ac.in/Careers/Faculty%20Positions/index.html"
+      ]
     },
     {
       "id": "iit-guwahati",
@@ -57,26 +73,35 @@
       "homepage": "https://www.iitg.ac.in",
       "domain": "iitg.ac.in",
       "seed_urls": [
-        "https://iitg.ac.in/iitg_page_details?page=61/fac_rec"
+        "https://www.iitg.ac.in/iitg_faculty_reqr"
       ]
     },
     {
       "id": "iit-hyderabad",
       "name": "IIT Hyderabad",
       "homepage": "https://www.iith.ac.in",
-      "domain": "iith.ac.in"
+      "domain": "iith.ac.in",
+      "seed_urls": [
+        "https://iith.ac.in/careers/"
+      ]
     },
     {
       "id": "iit-indore",
       "name": "IIT Indore",
       "homepage": "https://www.iiti.ac.in",
-      "domain": "iiti.ac.in"
+      "domain": "iiti.ac.in",
+      "seed_urls": [
+        "https://iiti.ac.in/recruitments/faculty_positions"
+      ]
     },
     {
       "id": "iit-varanasi",
       "name": "IIT (BHU) Varanasi",
       "homepage": "https://www.iitbhu.ac.in",
-      "domain": "iitbhu.ac.in"
+      "domain": "iitbhu.ac.in",
+      "seed_urls": [
+        "https://facultyrecruitment.iitbhu.ac.in/"
+      ]
     },
     {
       "id": "iit-bhubaneswar",
@@ -84,6 +109,7 @@
       "homepage": "https://www.iitbbs.ac.in",
       "domain": "iitbbs.ac.in",
       "seed_urls": [
+        "https://www.iitbbs.ac.in/faculty-openings.php",
         "https://www.iitbbs.ac.in/index.php/home/jobs/"
       ]
     },
@@ -103,63 +129,93 @@
       "homepage": "https://iitj.ac.in",
       "domain": "iitj.ac.in",
       "seed_urls": [
-        "https://erponline.iitj.ac.in/Jobs/auth/facapps.html"
+        "https://iitj.ac.in/faculty/index.php?id=faculty_positions"
       ]
     },
     {
       "id": "iit-mandi",
       "name": "IIT Mandi",
       "homepage": "https://www.iitmandi.ac.in",
-      "domain": "iitmandi.ac.in"
+      "domain": "iitmandi.ac.in",
+      "seed_urls": [
+        "https://www.iitmandi.ac.in/careers.php",
+        "https://faculty.iitmandi.ac.in/"
+      ]
     },
     {
       "id": "iit-patna",
       "name": "IIT Patna",
       "homepage": "https://www.iitp.ac.in",
-      "domain": "iitp.ac.in"
+      "domain": "iitp.ac.in",
+      "seed_urls": [
+        "https://www.iitp.ac.in/index.php/recruitment",
+        "https://www.iitp.ac.in/index.php?id=583"
+      ]
     },
     {
       "id": "iit-ropar",
       "name": "IIT Ropar",
       "homepage": "https://www.iitrpr.ac.in",
-      "domain": "iitrpr.ac.in"
+      "domain": "iitrpr.ac.in",
+      "seed_urls": [
+        "https://www.iitrpr.ac.in/jobs/faculty-positions"
+      ]
     },
     {
       "id": "iit-tirupati",
       "name": "IIT Tirupati",
       "homepage": "https://www.iittp.ac.in",
-      "domain": "iittp.ac.in"
+      "domain": "iittp.ac.in",
+      "seed_urls": [
+        "https://iittp.ac.in/recruitment"
+      ]
     },
     {
       "id": "iit-palakkad",
       "name": "IIT Palakkad",
       "homepage": "https://iitpkd.ac.in",
-      "domain": "iitpkd.ac.in"
+      "domain": "iitpkd.ac.in",
+      "seed_urls": [
+        "https://facap.iitpkd.ac.in/"
+      ]
     },
     {
       "id": "iit-jammu",
       "name": "IIT Jammu",
       "homepage": "https://www.iitjammu.ac.in",
-      "domain": "iitjammu.ac.in"
+      "domain": "iitjammu.ac.in",
+      "seed_urls": [
+        "https://iitjammu.ac.in/faculty-search-cum-selection"
+      ]
     },
     {
       "id": "iit-dharwad",
       "name": "IIT Dharwad",
       "homepage": "https://www.iitdh.ac.in",
       "domain": "iitdh.ac.in",
-      "force_rolling": true
+      "force_rolling": true,
+      "seed_urls": [
+        "https://www.iitdh.ac.in/faculty-recruitment"
+      ]
     },
     {
       "id": "iit-bhilai",
       "name": "IIT Bhilai",
       "homepage": "https://www.iitbhilai.ac.in",
-      "domain": "iitbhilai.ac.in"
+      "domain": "iitbhilai.ac.in",
+      "seed_urls": [
+        "https://www.iitbhilai.ac.in/index.php?pid=rec_faculty"
+      ]
     },
     {
       "id": "iit-goa",
       "name": "IIT Goa",
       "homepage": "https://iitgoa.ac.in",
-      "domain": "iitgoa.ac.in"
+      "domain": "iitgoa.ac.in",
+      "seed_urls": [
+        "https://iitgoa.ac.in/faculty-position/"
+      ],
+      "force_rolling": true
     }
   ],
   "nits": [
@@ -176,13 +232,19 @@
       "id": "nit-warangal",
       "name": "NIT Warangal",
       "homepage": "https://www.nitw.ac.in",
-      "domain": "nitw.ac.in"
+      "domain": "nitw.ac.in",
+      "seed_urls": [
+        "https://recruit.nitw.ac.in"
+      ]
     },
     {
       "id": "nit-surathkal",
       "name": "NIT Surathkal",
       "homepage": "https://www.nitk.ac.in",
-      "domain": "nitk.ac.in"
+      "domain": "nitk.ac.in",
+      "seed_urls": [
+        "https://www.nitk.ac.in/Assistant-Professor_Faculty_Recruitment"
+      ]
     },
     {
       "id": "nit-calicut",
@@ -594,7 +656,25 @@
     "invites applications on a rolling",
     "recruitment on rolling",
     "rolling recruitment",
-    "applications will be reviewed"
+    "applications will be reviewed",
+    "applications are processed in batches",
+    "no last date",
+    "no specific last date",
+    "applications will be processed periodically",
+    "applications will be accepted online throughout",
+    "regular recruitment drive",
+    "special recruitment drive",
+    "faculty positions at the level of",
+    "invites applications from",
+    "applications from qualified",
+    "standing advertisement",
+    "applications for regular drive is opened",
+    "regular drive is opened",
+    "recruitment drive is open",
+    "invites applications from indian nationals",
+    "invites applications from qualified",
+    "applications are invited for faculty",
+    "apply now"
   ],
   "exclusion_keywords": [
     "research assistant",
@@ -656,6 +736,19 @@
     "application is closed",
     "applications are closed",
     "last date has passed",
-    "no vacancy"
+    "no vacancy",
+    "applications for special recruitment drive is closed",
+    "special drive is closed",
+    "drive is closed",
+    "applications were accepted from",
+    "recruitment drive is closed",
+    "portal is now closed",
+    "submission of application is closed",
+    "applications for regular drive is closed",
+    "applications for special drive is closed",
+    "online application is closed",
+    "recruitment portal is closed",
+    "applications are no longer being accepted",
+    "portal has been closed"
   ]
 }
