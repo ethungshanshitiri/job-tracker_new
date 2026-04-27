@@ -81,14 +81,20 @@ const INCL_KW    = SOURCES.inclusion_keywords.map(s => s.toLowerCase());
 const EXCL_KW    = SOURCES.exclusion_keywords.map(s => s.toLowerCase());
 const CLOSED_SIG = [
   ...SOURCES.closed_signals.map(s => s.toLowerCase()),
-  // Extra patterns observed on real institute pages
-  "(closed)",              // IIT Guwahati: "advertisement ... (CLOSED)"
-  "portal is closed",      // IIT Madras 2025: "online application is closed"
+  // Verified on real IIT/NIT pages:
+  "(closed)",                                    // IIT Guwahati inline label
+  "online application is closed",               // IIT Madras 2025 cycle
+  "portal is closed",
   "application is closed",
   "applications are closed",
   "last date has passed",
   "no vacancy",
   "post has been filled",
+  "no advertisements found",                    // NIT Rourkela
+  "list of selected candidates for faculty",    // process completed
+  "applications for special recruitment drive is closed", // IIT Dharwad
+  "recruitment process is over",
+  "applications are no longer being accepted",
 ];
 
 const DEPT_DISPLAY = {
@@ -463,13 +469,23 @@ function parseDeadline(text) {
 function isRolling(text) {
   const low = text.toLowerCase();
   return (
+    // Exact phrases verified on real IIT/NIT pages:
     low.includes("rolling basis") ||
     low.includes("rolling advertisement") ||
     low.includes("rolling advt") ||
     low.includes("rolling recruitment") ||
-    low.includes("this is a rolling") ||
-    low.includes("regular drive is opened") ||
-    low.includes("regular drive (rolling") ||
+    low.includes("this is a rolling") ||                          // IIT Bombay, MNNIT
+    low.includes("applications will be processed periodically") || // IIT Bombay
+    low.includes("applications are accepted throughout the year") || // IIT Gandhinagar
+    low.includes("throughout the year") ||
+    low.includes("there is no last date") ||                      // IIT Bombay Physics
+    low.includes("no last date for applications") ||              // IIT Bombay
+    low.includes("no specific last date") ||                      // NIT Warangal
+    low.includes("regular drive is opened") ||                    // IIT Dharwad
+    low.includes("regular drive (rolling") ||                     // IIT Dharwad
+    low.includes("when a sizable number of applications") ||      // NIT Warangal
+    low.includes("cutoff date will be announced") ||              // NIT Warangal
+    low.includes("standing advertisement") ||                     // IIT Patna
     low.includes("open on rolling") ||
     low.includes("open until filled") ||
     low.includes("until the position is filled") ||
@@ -478,14 +494,9 @@ function isRolling(text) {
     low.includes("invites applications on a rolling") ||
     low.includes("positions are open on") ||
     low.includes("faculty positions are open") ||
-    low.includes("no specific last date") ||
-    low.includes("no last date for") ||
-    low.includes("throughout the year") ||
     low.includes("processed periodically") ||
     low.includes("processed in batches") ||
-    low.includes("applications will be accepted online throughout") ||
-    low.includes("applications are accepted throughout") ||
-    low.includes("standing advertisement")
+    low.includes("applications will be accepted online throughout")
   );
 }
 

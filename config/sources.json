@@ -23,7 +23,7 @@
       "homepage": "https://www.iitb.ac.in",
       "domain": "iitb.ac.in",
       "seed_urls": [
-        "https://www.iitb.ac.in/en/faculty/faculty-recruitment",
+        "https://www.iitb.ac.in/career/apply",
         "https://www.iitb.ac.in/job-vacancy-ad/rolling-advertisement-no-l-1025-26"
       ],
       "force_rolling": true
@@ -167,6 +167,7 @@
       "homepage": "https://www.iittp.ac.in",
       "domain": "iittp.ac.in",
       "seed_urls": [
+        "https://iittp.ac.in/facultyrecruitment",
         "https://iittp.ac.in/recruitment"
       ]
     },
@@ -226,7 +227,7 @@
       "domain": "nitt.edu",
       "seed_urls": [
         "https://www.nitt.edu/home/other/jobs/",
-        "https://www.nitt.edu/home/academics/departments/faculty/faculty-recruitment/"
+        "https://erp.nitt.edu/faculty-recruitment"
       ]
     },
     {
@@ -328,7 +329,6 @@
       "domain": "nits.ac.in",
       "seed_urls": [
         "https://www.nits.ac.in/employment",
-        "http://old.nits.ac.in/recruitment.php",
         "http://recruitment.nits.ac.in/"
       ]
     },
@@ -378,8 +378,7 @@
       "homepage": "https://www.nitj.ac.in",
       "domain": "nitj.ac.in",
       "seed_urls": [
-        "https://www.nitj.ac.in/index.html#recruitment",
-        "https://www.nitj.ac.in/template/index.html?id=6709163583b910f5bc5e2cf1?category=newpage"
+        "https://www.nitj.ac.in/"
       ]
     },
     {
@@ -408,8 +407,7 @@
       "homepage": "https://www.nitrr.ac.in",
       "domain": "nitrr.ac.in",
       "seed_urls": [
-        "https://www.nitrr.ac.in/advertisement.php",
-        "https://www.nitrr.ac.in/asst_prof.php"
+        "https://www.nitrr.ac.in/advertisement.php"
       ]
     },
     {
@@ -789,7 +787,14 @@
     "invites applications from indian nationals",
     "invites applications from qualified",
     "applications are invited for faculty",
-    "apply now"
+    "apply now",
+    "no last date for applications",
+    "there is no last date",
+    "applications are invited for positions in the following academic units",
+    "invites applications from qualified indian nationals",
+    "recruitment for backlog faculty positions",
+    "when a sizable number of applications are received",
+    "cutoff date will be announced"
   ],
   "exclusion_keywords": [
     "research assistant",
@@ -864,6 +869,9 @@
     "online application is closed",
     "recruitment portal is closed",
     "applications are no longer being accepted",
-    "portal has been closed"
+    "portal has been closed",
+    "no advertisements found",
+    "list of selected candidates for faculty",
+    "last date of submission of applications is"
   ]
 }
