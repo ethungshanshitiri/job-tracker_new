@@ -45,8 +45,7 @@
       "domain": "iitk.ac.in",
       "seed_urls": [
         "https://www.iitk.ac.in/dofa/index.php/rolling-advertisement"
-      ],
-      "force_rolling": true
+      ]
     },
     {
       "id": "iit-kharagpur",
@@ -194,7 +193,6 @@
       "name": "IIT Dharwad",
       "homepage": "https://www.iitdh.ac.in",
       "domain": "iitdh.ac.in",
-      "force_rolling": true,
       "seed_urls": [
         "https://www.iitdh.ac.in/faculty-recruitment"
       ]
@@ -358,7 +356,6 @@
       "homepage": "https://www.nita.ac.in",
       "domain": "nita.ac.in",
       "seed_urls": [
-        "https://www.nita.ac.in/UserPanel/Minutes_Others.aspx?file=Recruitment",
         "https://hr.nita.ac.in/"
       ]
     },
@@ -703,7 +700,35 @@
       ".svg",
       ".mp4",
       ".mp3",
-      ".wav"
+      ".wav",
+      "campus-life",
+      "iitk-faculty",
+      "dofa/current-faculty",
+      "dofa/visiting-faculty",
+      "dofa/adjunct-faculty",
+      "hindi/iitk-faculty",
+      "iitg_people",
+      "spldrive",
+      "mech/faculty",
+      "home_faculty_profile",
+      "faculty-affairs",
+      "iitmandilogo",
+      "administrative-sections",
+      "institute/iitmandi",
+      "FacultyStaff/Faculty?SearchAlpha",
+      "FacultyStaff/Faculty/",
+      "FacultyStaff/Faculty",
+      "news-details.php",
+      "telephone-directory",
+      "recognised-supervisors",
+      "supervisors-internal",
+      "supervisors-external",
+      "green-campus-initiative",
+      "screen-reader-access",
+      "ViewAllNewsAndEvents",
+      "iitg_page_details?page=41",
+      "ece.nitsikkim.ac.in",
+      "/faculty$"
     ]
   },
   "target_ranks": [
@@ -743,21 +768,16 @@
     ]
   },
   "inclusion_keywords": [
-    "assistant professor",
-    "associate professor",
     "faculty recruitment",
     "faculty position",
     "faculty opening",
     "faculty vacancy",
-    "teaching position",
     "rolling basis",
     "open until filled",
     "applications are invited",
     "online applications invited",
     "recruitment for faculty",
     "invites applications",
-    "regular faculty",
-    "faculty appointment",
     "applications invited for",
     "rolling advertisement",
     "rolling advt",
@@ -787,7 +807,6 @@
     "invites applications from indian nationals",
     "invites applications from qualified",
     "applications are invited for faculty",
-    "apply now",
     "no last date for applications",
     "there is no last date",
     "applications are invited for positions in the following academic units",
