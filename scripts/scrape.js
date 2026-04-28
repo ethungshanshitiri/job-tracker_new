@@ -54,14 +54,18 @@ const DISMISSED_PATH = path.join(ROOT, "data", "dismissed.json");
 // To restore a listing, remove it from data/dismissed.json and re-run.
 function loadDismissed() {
   try {
-    const raw    = fs.readFileSync(DISMISSED_PATH, "utf8");
-    const parsed = JSON.parse(raw);
-    return new Set((parsed.dismissed || []).map(d => d.url));
+    const raw     = fs.readFileSync(DISMISSED_PATH, "utf8");
+    const entries = JSON.parse(raw).dismissed || [];
+    const urls    = new Set(entries.map(d => d.url).filter(Boolean));
+    const ids     = new Set(entries.map(d => d.id).filter(Boolean));
+    return { urls, ids };
   } catch {
-    return new Set();
+    return { urls: new Set(), ids: new Set() };
   }
 }
-const DISMISSED_URLS = loadDismissed();
+const DISMISSED      = loadDismissed();
+const DISMISSED_URLS = DISMISSED.urls;
+const DISMISSED_IDS  = DISMISSED.ids;
 
 // ─── Config from sources.json ────────────────────────────────────────────────
 
@@ -753,8 +757,9 @@ async function main() {
     }
 
     if (result && result.jobs.length > 0) {
-      // Filter out dismissed URLs from the result
-      if (DISMISSED_URLS.has(result.url)) {
+      // Filter out dismissed entries by URL or institute id
+      const isDismissed = DISMISSED_URLS.has(result.url) || DISMISSED_IDS.has(result.id);
+      if (isDismissed) {
         console.log(`  [dismissed] ${result.url} — skipped (in dismissed.json)`);
       } else {
         console.log(`  ✓ ${result.jobs.length} job(s) confirmed | confidence: ${result.jobs[0]?.confidence} | pages scanned: ${result.pagesScanned}`);

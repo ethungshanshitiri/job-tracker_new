@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-27T21:14:45.138Z",
-  "totalActive": 6,
+  "generatedAt": "2026-04-28T20:06:16.561Z",
+  "totalActive": 4,
   "scraper": "v2 — homepage crawl, 3-hop depth",
   "results": [
     {
@@ -10,7 +10,7 @@
       "url": "https://www.iitm.ac.in/careers/prospective-faculty",
       "advertDate": "2025-04-11",
       "status": "active",
-      "checkedAt": "2026-04-27T20:16:00.811Z",
+      "checkedAt": "2026-04-28T19:06:21.100Z",
       "pagesScanned": 40,
       "jobs": [
         {
@@ -42,7 +42,7 @@
       "url": "https://www.iitb.ac.in/job-vacancy-ad/rolling-advertisement-no-l-1025-26",
       "advertDate": null,
       "status": "active",
-      "checkedAt": "2026-04-27T20:17:24.872Z",
+      "checkedAt": "2026-04-28T19:07:54.660Z",
       "pagesScanned": 40,
       "jobs": [
         {
@@ -83,78 +83,6 @@
           "rolling": true,
           "applicationMode": "Rolling basis",
           "confidence": "high",
-          "notes": null
-        }
-      ]
-    },
-    {
-      "id": "iit-bhubaneswar",
-      "name": "IIT Bhubaneswar",
-      "type": "IIT",
-      "url": "https://www.iitbbs.ac.in/index.php/srd-2025/",
-      "advertDate": null,
-      "status": "active",
-      "checkedAt": "2026-04-27T20:29:04.439Z",
-      "pagesScanned": 40,
-      "jobs": [
-        {
-          "rank": "Assistant Professor",
-          "department": "Computer Science & Engineering",
-          "departmentFamily": "computer_science",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
-          "notes": null
-        },
-        {
-          "rank": "Assistant Professor",
-          "department": "Electrical Engineering",
-          "departmentFamily": "electrical_engineering",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
-          "notes": null
-        },
-        {
-          "rank": "Assistant Professor",
-          "department": "Electronics & Communication Engineering",
-          "departmentFamily": "electronics_communication",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
-          "notes": null
-        },
-        {
-          "rank": "Associate Professor",
-          "department": "Computer Science & Engineering",
-          "departmentFamily": "computer_science",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
-          "notes": null
-        },
-        {
-          "rank": "Associate Professor",
-          "department": "Electrical Engineering",
-          "departmentFamily": "electrical_engineering",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
-          "notes": null
-        },
-        {
-          "rank": "Associate Professor",
-          "department": "Electronics & Communication Engineering",
-          "departmentFamily": "electronics_communication",
-          "deadline": null,
-          "rolling": false,
-          "applicationMode": "See official page",
-          "confidence": "medium",
           "notes": null
         }
       ]
@@ -166,7 +94,7 @@
       "url": "https://iitgn.ac.in/careers/faculty-rolling-advertisement",
       "advertDate": null,
       "status": "active",
-      "checkedAt": "2026-04-27T20:31:10.523Z",
+      "checkedAt": "2026-04-28T19:26:03.961Z",
       "pagesScanned": 40,
       "jobs": [
         {
@@ -212,55 +140,13 @@
       ]
     },
     {
-      "id": "nit-agartala",
-      "name": "NIT Agartala",
+      "id": "nit-uttarakhand",
+      "name": "NIT Uttarakhand",
       "type": "NIT",
-      "url": "https://nita.ac.in/",
-      "advertDate": "2006-03-10",
+      "url": "https://nituk.ac.in/recruitments",
+      "advertDate": null,
       "status": "active",
-      "checkedAt": "2026-04-27T20:58:38.879Z",
-      "pagesScanned": 40,
-      "jobs": [
-        {
-          "rank": "Associate Professor",
-          "department": "Electrical Engineering",
-          "departmentFamily": "electrical_engineering",
-          "deadline": "2026-04-26",
-          "rolling": false,
-          "applicationMode": "Fixed deadline",
-          "confidence": "high",
-          "notes": null
-        },
-        {
-          "rank": "Associate Professor",
-          "department": "Electronics & Communication Engineering",
-          "departmentFamily": "electronics_communication",
-          "deadline": "2026-04-26",
-          "rolling": false,
-          "applicationMode": "Fixed deadline",
-          "confidence": "high",
-          "notes": null
-        },
-        {
-          "rank": "Associate Professor",
-          "department": "Computer Science & Engineering",
-          "departmentFamily": "computer_science",
-          "deadline": "2026-04-26",
-          "rolling": false,
-          "applicationMode": "Fixed deadline",
-          "confidence": "high",
-          "notes": null
-        }
-      ]
-    },
-    {
-      "id": "nit-manipur",
-      "name": "NIT Manipur",
-      "type": "NIT",
-      "url": "https://www.nitmanipur.ac.in/ViewAll.aspx?view=Vacancies",
-      "advertDate": "2024-10-18",
-      "status": "active",
-      "checkedAt": "2026-04-27T21:04:57.916Z",
+      "checkedAt": "2026-04-28T20:04:04.645Z",
       "pagesScanned": 40,
       "jobs": [
         {
@@ -268,9 +154,9 @@
           "department": "Electrical Engineering",
           "departmentFamily": "electrical_engineering",
           "deadline": null,
-          "rolling": true,
-          "applicationMode": "Rolling basis",
-          "confidence": "high",
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
           "notes": null
         },
         {
@@ -278,9 +164,9 @@
           "department": "Electronics & Communication Engineering",
           "departmentFamily": "electronics_communication",
           "deadline": null,
-          "rolling": true,
-          "applicationMode": "Rolling basis",
-          "confidence": "high",
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
           "notes": null
         },
         {
@@ -288,9 +174,39 @@
           "department": "Computer Science & Engineering",
           "departmentFamily": "computer_science",
           "deadline": null,
-          "rolling": true,
-          "applicationMode": "Rolling basis",
-          "confidence": "high",
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
+          "notes": null
+        },
+        {
+          "rank": "Associate Professor",
+          "department": "Electrical Engineering",
+          "departmentFamily": "electrical_engineering",
+          "deadline": null,
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
+          "notes": null
+        },
+        {
+          "rank": "Associate Professor",
+          "department": "Electronics & Communication Engineering",
+          "departmentFamily": "electronics_communication",
+          "deadline": null,
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
+          "notes": null
+        },
+        {
+          "rank": "Associate Professor",
+          "department": "Computer Science & Engineering",
+          "departmentFamily": "computer_science",
+          "deadline": null,
+          "rolling": false,
+          "applicationMode": "See official page",
+          "confidence": "medium",
           "notes": null
         }
       ]

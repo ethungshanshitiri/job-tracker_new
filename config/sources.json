@@ -347,7 +347,7 @@
       "domain": "nith.ac.in",
       "seed_urls": [
         "https://www.nith.ac.in/recruitment/faculty",
-        "https://www.nith.ac.in/td/index.html"
+        "https://web.nith.ac.in/recruitment"
       ]
     },
     {
@@ -511,7 +511,10 @@
       "domain": "nituk.ac.in",
       "seed_urls": [
         "https://nituk.ac.in/recruitments",
-        "https://www.nituk.ac.in/faculty-recruitment"
+        "https://recruitment-ap.nituk.ac.in/login"
+      ],
+      "extra_domains": [
+        "recruitment-ap.nituk.ac.in"
       ]
     },
     {
